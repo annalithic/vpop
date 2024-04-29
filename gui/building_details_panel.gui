@@ -1515,8 +1515,16 @@ types building_panels
 			}
 		}
 
+
+		default_header_2texts = {
+			blockoverride "text1" {
+				text = "WORKFORCE"
+			}
+		}
+
 		vpop_bulding_pop_overview = {}
 
+		vpop_sgui_test_container = {}
 
 	}
 

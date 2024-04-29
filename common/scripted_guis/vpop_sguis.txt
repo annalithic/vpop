@@ -1,0 +1,503 @@
+﻿vpop_sgui_test_set = {
+	scope = country
+
+	effect = {
+		set_variable = {
+			name = vpop_Academics
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Aristocrats
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Bureaucrats
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Capitalists
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Clergymen
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Clerks
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Engineers
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Farmers
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Laborers
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Machinists
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Officers
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Peasants
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Shopkeepers
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Slaves
+			value = 0
+			days = 1
+		}
+		set_variable = {
+			name = vpop_Servicemen
+			value = 0
+			days = 1
+		}
+		every_interest_group = {
+			set_variable = {
+				name = vpop_Academics
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Aristocrats
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Bureaucrats
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Capitalists
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Clergymen
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Clerks
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Engineers
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Farmers
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Laborers
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Machinists
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Officers
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Peasants
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Shopkeepers
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Slaves
+				value = 0
+				days = 1
+			}
+			set_variable = {
+				name = vpop_Servicemen
+				value = 0
+				days = 1
+			}
+		}
+	}
+}
+
+vpop_sgui_add_poptype_interest_group = {
+	scope = interest_group
+
+	effect = {
+		if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = academics
+				}
+			}
+			change_variable = {
+				name = vpop_Academics
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = aristocrats
+				}
+			}
+			change_variable = {
+				name = vpop_Aristocrats
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = bureaucrats
+				}
+			}
+			change_variable = {
+				name = vpop_Bureaucrats
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = capitalists
+				}
+			}
+			change_variable = {
+				name = vpop_Capitalists
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = clergymen
+				}
+			}
+			change_variable = {
+				name = vpop_Clergymen
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = clerks
+				}
+			}
+			change_variable = {
+				name = vpop_Clerks
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = engineers
+				}
+			}
+			change_variable = {
+				name = vpop_Engineers
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = farmers
+				}
+			}
+			change_variable = {
+				name = vpop_Farmers
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = laborers
+				}
+			}
+			change_variable = {
+				name = vpop_Laborers
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = machinists
+				}
+			}
+			change_variable = {
+				name = vpop_Machinists
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = officers
+				}
+			}
+			change_variable = {
+				name = vpop_Officers
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = peasants
+				}
+			}
+			change_variable = {
+				name = vpop_Peasants
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = shopkeepers
+				}
+			}
+			change_variable = {
+				name = vpop_Shopkeepers
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = slaves
+				}
+			}
+			change_variable = {
+				name = vpop_Slaves
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = soldiers
+				}
+			}
+			change_variable = {
+				name = vpop_Servicemen
+				add = scope:n
+			}
+		}
+	}
+}
+
+vpop_sgui_add_poptype_country = {
+	scope = country
+
+	effect = {
+		if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = academics
+				}
+			}
+			change_variable = {
+				name = vpop_Academics
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = aristocrats
+				}
+			}
+			change_variable = {
+				name = vpop_Aristocrats
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = bureaucrats
+				}
+			}
+			change_variable = {
+				name = vpop_Bureaucrats
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = capitalists
+				}
+			}
+			change_variable = {
+				name = vpop_Capitalists
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = clergymen
+				}
+			}
+			change_variable = {
+				name = vpop_Clergymen
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = clerks
+				}
+			}
+			change_variable = {
+				name = vpop_Clerks
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = engineers
+				}
+			}
+			change_variable = {
+				name = vpop_Engineers
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = farmers
+				}
+			}
+			change_variable = {
+				name = vpop_Farmers
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = laborers
+				}
+			}
+			change_variable = {
+				name = vpop_Laborers
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = machinists
+				}
+			}
+			change_variable = {
+				name = vpop_Machinists
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = officers
+				}
+			}
+			change_variable = {
+				name = vpop_Officers
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = peasants
+				}
+			}
+			change_variable = {
+				name = vpop_Peasants
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = shopkeepers
+				}
+			}
+			change_variable = {
+				name = vpop_Shopkeepers
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = slaves
+				}
+			}
+			change_variable = {
+				name = vpop_Slaves
+				add = scope:n
+			}
+		}
+		else_if = {
+			limit = { 
+				scope:p = {
+					is_pop_type = soldiers
+				}
+			}
+			change_variable = {
+				name = vpop_Servicemen
+				add = scope:n
+			}
+		}
+	}
+
+}
