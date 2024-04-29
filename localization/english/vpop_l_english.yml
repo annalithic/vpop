@@ -1,0 +1,3 @@
+﻿l_english:
+ VPOP_POP_LIST_WAGE:0 "@money![PopListItem.GetAverageAnnualWage|v1]"
+ VPOP_POP_LIST_SOL:0 "[LabelingHelper.GetIconForStandardOfLivingFloat(PopListItem.GetAverageSoL)|v] [PopListItem.GetAverageSoL|1y]"

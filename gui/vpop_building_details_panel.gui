@@ -1,0 +1,275 @@
+# COPY-PASTED FOR NOW
+@panel_width_minus_10 = 530			# used to be 450
+@panel_width = 540  				# used to be 460
+@panel_width_half = 270				# used to be 230
+@panel_width_plus_10 = 550  		# used to be 470
+@panel_width_plus_14 = 554			# used to be 474
+@panel_width_plus_14_half = 277		# used to be 237
+@panel_width_plus_20 = 560			# used to be 480
+@panel_width_plus_30 = 570			# used to be 490
+@panel_width_plus_70 = 610			# used to be 530
+
+types vpop_building_types
+{
+	type vpop_bulding_pop_overview = flowcontainer {
+		direction = vertical
+
+		vpop_pop_list = {
+			blockoverride "pop_list_context" {
+				datacontext = "[Building.AccessPopsList]"
+				datacontext = "[Building]"
+			}			
+
+			tooltipwidget = {
+				FancyTooltip_PopTypeBuilding = {}
+			}
+			
+		}
+
+		pop_list = {
+			blockoverride "pop_list_context" {
+				datacontext = "[Building.AccessPopsList]"
+				datacontext = "[Building]"
+			}
+
+			blockoverride "building_and_state" {}
+
+			blockoverride "right_text_text" {}
+
+			blockoverride "pop_size_info" {
+				text = "[Pop.GetNumWorkforce|Dv]"
+			}
+			
+			blockoverride "tooltipwidget" {
+							
+				tooltipwidget = {
+					FancyTooltip_PopTypeBuilding = {}
+				}
+			}
+
+			blockoverride "total_info" {
+				textbox = {
+					text = "POP_TOTAL_INFO"
+					using = pop_population_tooltip_with_graph
+					minimumsize = { 220 54 }
+					elide = right
+					align = left|nobaseline
+					margin = { 5 0 }
+					autoresize = yes
+				}
+			}
+		}
+	}
+
+
+	type vpop_pop_list = flowcontainer {
+		#direction = vertical
+		using = default_list_position
+		spacing = 5
+		margin_bottom = 15
+		
+		block "pop_list_context" {}
+		
+		datamodel = "[PopList.AccessPopList]"
+
+		item = {
+			flowcontainer = {
+				direction = vertical
+				spacing = 0
+
+				background = {
+					using = entry_bg
+				}
+
+				vpop_pop_list_item = {}
+
+				### EXPANDABLE ENTRY
+			}
+		}
+	}
+
+	type vpop_pop_list_item = flowcontainer {
+
+		direction = vertical
+
+		datacontext = "[PopListItem.GetPopType]"
+
+		
+		textbox = {
+			parentanchor = hcenter
+			text = "[PopListItem.GetPopType.GetName]"
+			autoresize = yes
+			margin = { 10 10 }
+		}
+
+			
+		pop_portrait_simple = {
+			parentanchor = hcenter
+
+			datacontext = "[PopListItem.GetFirstPop]"
+
+			blockoverride "portrait_button" {}
+			
+			size = { 125 125 }
+			
+			background = {
+				using = pop_bg
+			}
+			
+			blockoverride "portrait_size" {
+				size = { 150 150 }
+			}
+
+						
+
+		}
+
+		
+
+				
+		### INFO FOR WORKFORCE IN BUILDINGS
+		flowcontainer = {
+			direction = vertical
+			parentanchor = hcenter
+			visible = "[PopList.HasBuildingContext]"
+			datacontext = "[PopList.GetBuildingContext]"
+			margin_right = 10 
+
+
+			### WORKERS
+			flowcontainer = {
+				parentanchor = hcenter
+				direction = vertical
+				tooltip = "[PopListItem.GetEmploymentDesc()]"
+				spacing = 4
+				margin_top = 4
+				margin_bottom = 10
+
+				textbox = {
+					text = "[Building.GetPopTypeFullyReplacedDesc(PopListItem.GetPopType)]"
+					align = left|nobaseline
+					autoresize = yes
+				}
+
+				default_progressbar_horizontal = {
+					parentanchor = hcenter
+					size = { 125 23 }
+					visible = "[Not(Building.IsRoleFullyReplacedByAnotherPopType(PopListItem.GetPopType))]"
+					blockoverride "values" {
+						min = -1    # Set to -1, otherwise zero slaves bar (before starts hiring) will be constantly filling up
+						max = "[IntToFloat(Building.GetMaxPopSize(PopListItem.GetPopType))]"
+						value = "[IntToFloat(PopListItem.GetWorkingAdultsPopSize)]"
+					}
+					
+					flowcontainer = {
+						parentanchor = vcenter
+						margin_left = 10
+						textbox = {
+							raw_text = "#bold [PopListItem.GetWorkingAdultsPopSize|D]#!"
+							autoresize = yes
+							align = center|nobaseline
+							parentanchor = vcenter
+						}
+
+						textbox = {
+							visible = "[LessThan_int64(PopListItem.GetWorkingAdultsPopSize, Building.GetMaxPopSize(PopListItem.GetPopType))]"
+							margin_left = 7
+							raw_text = "/ #maximum [Building.GetMaxPopSize(PopListItem.GetPopType)|D]#!"
+							autoresize = yes
+							align = center|nobaseline
+							parentanchor = vcenter
+						}
+					}
+				}
+			}
+		}		
+		
+
+		widget = {
+			size = { 100% 20 }
+			### WAGE
+			textbox = {
+				margin_left = 5
+				parentanchor = left|vcenter
+				visible = "[Not(Building.IsRoleFullyReplacedByAnotherPopType(PopListItem.GetPopType))]"
+				text = "VPOP_POP_LIST_WAGE"
+				align = left|nobaseline
+				autoresize = yes
+				tooltip = "ANNUAL_WAGE_TOOLTIP"
+				alpha = "[TransparentIfFalse(GreaterThan_CFixedPoint(PopListItem.GetAverageAnnualWage, '(CFixedPoint)0'))]"
+			}
+
+			### SOL
+			textbox = {
+				margin_right = 5
+				parentanchor = right|vcenter
+				visible = "[GreaterThan_int64( PopListItem.GetWorkingAdultsPopSize, '(int64)0' )]"
+				text = "VPOP_POP_LIST_SOL"
+				autoresize = yes
+				align = nobaseline
+				tooltip = "POPS_LIST_SOL_TOOLTIP"
+				margin_right = 2
+				max_width = 140
+				fontsize_min = 12
+				elide = right
+			}
+			
+		}
+
+		### LARGEST INTEREST GROUPS
+		flowcontainer = {
+			parentanchor = hcenter
+			datamodel = "[PopListItem.AccessTwoLargestIGs]"
+			spacing = 5
+			#minimumsize = { 95 45 }
+
+			item = {
+				ig_button = {
+					size = { 25 25 }
+				}
+			}
+		}
+		
+
+		flowcontainer = {
+			direction = vertical
+			margin_left = 5
+			margin_bottom = 10
+			parentanchor = vcenter
+
+			flowcontainer = {
+				spacing = 2
+				icon = {
+					texture = "gfx/interface/icons/generic_icons/population_radical.dds"
+					size = { 26 26 }
+					parentanchor = vcenter
+				}
+				textbox = {
+					parentanchor = vcenter
+					raw_text = "#variable [PopListItem.GetNumRadicals|D]#!"
+					autoresize = yes
+					align = left|nobaseline
+					tooltip = "RADICALS_TOOLTIP_POP_LIST"
+					alpha = "[TransparentIfZero_int64(PopListItem.GetNumRadicals)]"
+				}
+			}
+
+			flowcontainer = {
+				spacing = 2
+				icon = {
+					texture = "gfx/interface/icons/generic_icons/population_loyalist.dds"
+					size = { 26 26 }
+					parentanchor = vcenter
+				}
+				textbox = {
+					parentanchor = vcenter
+					raw_text = "#variable [PopListItem.GetNumLoyalists|D]#!"
+					autoresize = yes
+					align = left|nobaseline
+					tooltip = "LOYALISTS_TOOLTIP_POP_LIST"
+					alpha = "[TransparentIfZero_int64(PopListItem.GetNumLoyalists)]"
+				}
+			}
+		}
+	}
+}
