@@ -1522,9 +1522,9 @@ types building_panels
 			}
 		}
 
-		vpop_bulding_pop_overview = {}
-
 		vpop_sgui_test_container = {}
+
+		vpop_bulding_pop_overview = {}
 
 	}
 

@@ -64,10 +64,34 @@ types vpop_building_types
 	type vpop_sgui_test_container = flowcontainer {
 		direction = vertical
 
-		button = {
-			onclick = "[GetScriptedGui('vpop_sgui_test_set').Execute(GuiScope.SetRoot(Building.GetOwner.MakeScope).End)]"
-			using = default_button
-			size = { 50 20 }
+		#button = {
+		#	onclick = "[GetScriptedGui('vpop_sgui_test_set').Execute(GuiScope.SetRoot(Building.GetOwner.MakeScope).End)]"
+		#	using = default_button
+		#	size = { 50 20 }
+		#}
+
+		widget = {
+			size = { 5 10 }
+			#background = {
+			#	using = simple_frame
+			#}
+			datacontext = "[Building.GetOwner]"
+			datacontext = "[GetScriptedGui('vpop_sgui_test_set')]"
+			datacontext = "[GetVariableSystem]"
+			state = {
+				#size = { 50 50 }
+				name = a
+				trigger_when = "[Not(Country.MakeScope.Var('vpop_Academics').IsSet)]"
+				on_start = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
+				on_start = "[VariableSystem.Toggle('vpop_test_togglevar')]"
+				duration = 0.0001
+				next = b
+			}
+			state = {
+				#size = { 50 20 }
+				on_start = "[VariableSystem.Clear('vpop_test_togglevar')]"
+				name = b
+			}
 		}
 
 		#button = {
@@ -75,97 +99,12 @@ types vpop_building_types
 		#	using = default_button
 		#	size = { 50 20 }
 		#}
-
-		dynamicgridbox = {
-			datacontext = "[Building.AccessPopsList]"
-			datamodel = "[PopList.AccessPopList]"
-			visible = no
-
-			item = {
-				widget = {
-					size = { @panel_width 30 }
-					hbox = {
-						layoutpolicy_horizontal = expanding
-						layoutpolicy_vertical = expanding
-
-						datacontext = "[Building.GetOwner]"
-
-						icon = {
-							size = { 30 30 }
-							texture = "[PopListItem.GetPopType.GetTexture]"
-						}
-
-						hbox = {
-							layoutstretchfactor_horizontal = "[Subtract_int32(FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)), FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue))]"
-
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							datamodel = "[Country.AccessAllInterestGroups]"
-
-							item = {
-								widget = {
-									layoutpolicy_horizontal = expanding
-									layoutpolicy_vertical = expanding
 		
-									background = {
-										texture = "gfx/interface/progressbar/bar_horizontal.dds"
-										color = "[InterestGroup.GetColor]"
-										alpha = 1
-										
-										modify_texture = {
-											using = texture_velvet
-										}	
-									}
-	
-									visible = "[GreaterThan_CFixedPoint(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
-									layoutstretchfactor_horizontal = "[FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
-									#minimumsize =  { -1 30 }
-									#width = "[FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
-	
-				
-									#textbox = {
-									#	parentanchor = center|nobaseline
-									#	autoresize = yes
-									#	text = "[InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue|1]"
-									#}
-					
-								}
-							}	
-						}
-
-
-						widget = {
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-							#background = {
-							#	texture = "gfx/interface/progressbar/bar_horizontal.dds"
-							#	alpha = 1	
-							#	modify_texture = {
-							#		using = texture_velvet
-							#	}	
-							#}
-							visible = "[GreaterThan_CFixedPoint(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
-							layoutstretchfactor_horizontal = "[FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
-
-							#textbox = {
-							#	parentanchor = center|nobaseline
-							#	autoresize = yes
-							#	text = "[Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue|1]"
-							#}
-						}
-					}
-				}
-			}
-		}
-
-
-
-		
-		button = {
-			onclick = "[GetVariableSystem.Toggle('vpop_test_togglevar')]"
-			using = default_button
-			size = { 50 20 }
-		}
+		#button = {
+		#	onclick = "[GetVariableSystem.Toggle('vpop_test_togglevar')]"
+		#	using = default_button
+		#	size = { 50 20 }
+		#}
 		
 		dynamicgridbox = {
 			flipdirection = yes
@@ -235,7 +174,7 @@ types vpop_building_types
 								visible = "[GetVariableSystem.Exists('vpop_test_togglevar')]"
 								state = {
 									name = _show
-									on_start = "[GetScriptedGui('vpop_sgui_add_poptype_country').Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('p', Pop.MakeScope).AddScope('n', MakeScopeValue(IntToFixedPoint(Pop.GetNumPoliticallyInactive))).End)]"
+									on_start = "[GetScriptedGui('vpop_sgui_add_poptype_country').Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('p', Pop.MakeScope).AddScope('n', MakeScopeValue(IntToFixedPoint(Select_int64(Pop.IsSlave,Pop.GetNumWorkforce,Pop.GetNumPoliticallyInactive)))).End)]"
 								}
 								size = { 5 5 }
 								background = {
@@ -246,20 +185,16 @@ types vpop_building_types
 					}	
 				}
 			}
-		}		
-
-
+		}
 
 	}
 
-	type vpop_pop_list = flowcontainer {
-
-
+	type vpop_pop_list = dynamicgridbox {
+		flipdirection = yes
+		datamodel_wrap = 4
 
 		#direction = vertical
 		using = default_list_position
-		spacing = 5
-		margin_bottom = 15
 		
 		block "pop_list_context" {}
 		
@@ -299,37 +234,8 @@ types vpop_building_types
 			margin = { 5 5 }
 		}
 
-			
-		pop_portrait_simple = {
-			parentanchor = hcenter
 
-			datacontext = "[PopListItem.GetFirstPop]"
-
-			blockoverride "portrait_button" {}
-			
-			size = { 125 125 }
-			
-			background = {
-				using = pop_bg
-			}
-			
-			blockoverride "portrait_size" {
-				size = { 150 150 }
-			}
-
-
-			#icon = {
-			#	parentanchor = bottom
-			#	position = { 6 -4 }
-			#	size = { 30 30 }
-			#	texture = "[PopListItem.GetPopType.GetTexture]"
-			#}
-
-						
-
-		}
-
-		
+		vpop_pop_portrait_ig = {}
 
 				
 		### INFO FOR WORKFORCE IN BUILDINGS
@@ -442,155 +348,7 @@ types vpop_building_types
 			size = { 5 8}
 		}
 
-		widget = {
-			parentanchor = hcenter
-			size = { 85% 20 }
-
-			block "background" {
-				background = {
-					texture = "gfx/interface/progressbar/progressbar_empty.dds"
-					spriteType = Corneredtiled
-					spriteborder = { 4 4 }
-					texture_density = 2
-					
-					using = progressbar_texture_properties
-				}
-			}
-
-			hbox = {
-				layoutpolicy_horizontal = expanding
-				layoutpolicy_vertical = expanding
-
-				datacontext = "[Building.GetOwner]"
-
-
-				hbox = {
-					layoutstretchfactor_horizontal = "[Subtract_int32(FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)), FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue))]"
-
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					datamodel = "[Country.AccessAllInterestGroups]"
-
-					item = {
-						widget = {
-							scissor = yes
-							layoutpolicy_horizontal = expanding
-							layoutpolicy_vertical = expanding
-
-							background = {
-								texture = "gfx/interface/progressbar/bar_horizontal.dds"
-								color = "[InterestGroup.GetColor]"
-								alpha = 1
-
-								#modify_texture = {
-								#	using = texture_velvet
-								#}
-								modify_texture = {
-									using = bg_tiling_pattern
-									texture_density = 1.5
-									alpha = 0.06
-								}
-								modify_texture = {
-									using = texture_velvet
-								}
-								
-								modify_texture = {
-									texture = "gfx/interface/backgrounds/gradient_overlay.dds"
-									spriteType = Corneredstretched
-									spriteborder = { 0 0 }
-									blend_mode = overlay
-									alpha = 0.8
-								}
-								modify_texture = {
-									texture = "gfx/interface/backgrounds/gradient_overlay.dds"
-									spriteType = Corneredstretched
-									spriteborder = { 0 0 }
-									blend_mode = multiply
-									alpha = 0.1
-								}	
-								#modify_texture = {
-								#	block "gradient" {
-								#		texture = "gfx/interface/progressbar/progressbar_gradient.dds"
-								#	}
-								#	spriteType = Corneredstretched
-								#	spriteborder = { 0 0 }
-								#	alpha = 0.5
-								#	blend_mode = overlay
-								#}
-												
-							}
-
-							icon = {
-								visible = no
-								#visible = "[GreaterThan_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))), '(float)13')]"
-								parentanchor = center
-								size = { 20 20 }
-								texture = "[InterestGroup.GetTexture]"
-								alpha = 0.4
-
-								modify_texture = {
-									texture = "gfx/interface/backgrounds/gradient_overlay.dds"
-									spriteType = Corneredstretched
-									spriteborder = { 0 0 }
-									blend_mode = overlay
-									alpha = 0.6
-								}
-							}
-
-							visible = "[GreaterThan_CFixedPoint(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
-							layoutstretchfactor_horizontal = "[FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
-							#minimumsize =  { -1 30 }
-							#width = "[FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
-
-		
-							#textbox = {
-							#	parentanchor = center|nobaseline
-							#	autoresize = yes
-							#	text = "[InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue|1]"
-							#}
-			
-						}
-					}	
-				}
-
-
-				widget = {
-					layoutpolicy_horizontal = expanding
-					layoutpolicy_vertical = expanding
-					visible = "[GreaterThan_CFixedPoint(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
-					layoutstretchfactor_horizontal = "[FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
-
-					#background = {
-					#	texture = "gfx/interface/progressbar/bar_horizontal.dds"
-					#	color = { 0.1 0.1 0.1 1 }
-					#	alpha = 1
-						
-					#	modify_texture = {
-					#		using = texture_velvet
-					#	}	
-					#}
-					#textbox = {
-					#	parentanchor = center|nobaseline
-					#	autoresize = yes
-					#	text = "[Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue|1]"
-					#}
-				}
-			}
-
-			widget = {
-				size = { 100% 100% }
-				
-				background = {
-					name = "frame"
-					texture = "gfx/interface/progressbar/progressbar_frame.dds"
-					spriteType = Corneredstretched
-					spriteborder = { 6 6 }
-					texture_density = 2
-					margin = { 3 3 }
-				}
-			}
-
-		}
+		vpop_barchart_ig = {}
 
 		widget = {
 			size = { 5 8}
@@ -634,6 +392,373 @@ types vpop_building_types
 					tooltip = "LOYALISTS_TOOLTIP_POP_LIST"
 					alpha = "[TransparentIfZero_int64(PopListItem.GetNumLoyalists)]"
 				}
+			}
+		}
+
+		vpop_tiny_piechart_ig = {}
+
+
+	}
+
+	type vpop_pop_portrait_ig = container  {
+
+		#icon = {
+		#	parentanchor = center
+		#	size = { 114 114 }
+		#	color = { 0.36 0.36 0.36 1 }
+		#	texture = "gfx/interface/piechart/piechart.dds"
+		#}
+
+		piechart = {
+			#mirror = horizontal
+			datacontext = "[Building.GetOwner]"
+			datamodel = "[Country.AccessAllInterestGroups]"
+
+			size = { 114 114 }
+
+			#alpha = "[Subtract_float('(float)1',Multiply_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))),'(float)0.005'))]"
+			visible = "[GreaterThan_CFixedPoint(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize),Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+
+			parentanchor = center
+			startangle = 180
+			endangle = 540
+			
+			#startangle = 0
+			#endangle = "[Subtract_float('(float)360',Multiply_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))),'(float)3.6')))]"
+
+				
+
+
+			item = {
+				pieslice = {
+					block "tooltip" {
+						datacontext = "[GetPlayer]"
+						tooltip = "CLOUT_PIECHART"
+					}
+
+					block "pieslice" {
+						value = "[FixedPointToFloat(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+					}
+
+					block "color" {
+						color = "[InterestGroup.GetColor]"
+					}
+				}
+			}
+
+
+		}
+
+		pop_portrait_simple = {
+			parentanchor = hcenter
+			datacontext = "[PopListItem.GetFirstPop]"
+
+			blockoverride "portrait_button" {}
+
+			#blockoverride "portrait_mask" {
+			#	mask = "gfx/interface/portraits/portrait_mask_default.dds"
+			#}
+			
+			size = { 125 125 }
+			
+			background = {
+				using = pop_bg
+			}
+			
+			blockoverride "portrait_size" {
+				size = { 150 150 }
+			}
+
+
+			#icon = {
+			#	parentanchor = bottom
+			#	position = { 6 -4 }
+			#	size = { 30 30 }
+			#	texture = "[PopListItem.GetPopType.GetTexture]"
+			#}
+
+						
+
+		}
+
+		flowcontainer = {
+			visible = no
+			direction = vertical
+			textbox = {
+				datacontext = "[Building.GetOwner]"
+				autoresize = yes
+				text = "[Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue]"
+			}
+			textbox = {
+				datacontext = "[Building.GetOwner]"
+				autoresize = yes
+				text = "[IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)]"
+			}
+			textbox = {
+				datacontext = "[Building.GetOwner]"
+				autoresize = yes
+				text = "[Subtract_float('(float)1',Multiply_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))),'(float)0.01'))]"
+
+			}
+		}
+
+
+	}
+
+
+	type vpop_barchart_ig = widget {
+		parentanchor = hcenter
+		size = { 85% 20 }
+
+		block "background" {
+			background = {
+				texture = "gfx/interface/progressbar/progressbar_empty.dds"
+				spriteType = Corneredtiled
+				spriteborder = { 4 4 }
+				texture_density = 2
+				
+				using = progressbar_texture_properties
+			}
+		}
+
+		hbox = {
+			layoutpolicy_horizontal = expanding
+			layoutpolicy_vertical = expanding
+
+			datacontext = "[Building.GetOwner]"
+
+
+			hbox = {
+				layoutstretchfactor_horizontal = "[Subtract_int32(FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)), FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue))]"
+
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				datamodel = "[Country.AccessAllInterestGroups]"
+
+				item = {
+					widget = {
+						scissor = yes
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+
+						background = {
+							texture = "gfx/interface/progressbar/bar_horizontal.dds"
+							color = "[InterestGroup.GetColor]"
+							alpha = 1
+
+							#modify_texture = {
+							#	using = texture_velvet
+							#}
+							modify_texture = {
+								using = bg_tiling_pattern
+								texture_density = 1.5
+								alpha = 0.06
+							}
+							modify_texture = {
+								using = texture_velvet
+							}
+							
+							modify_texture = {
+								texture = "gfx/interface/backgrounds/gradient_overlay.dds"
+								spriteType = Corneredstretched
+								spriteborder = { 0 0 }
+								blend_mode = overlay
+								alpha = 0.8
+							}
+							modify_texture = {
+								texture = "gfx/interface/backgrounds/gradient_overlay.dds"
+								spriteType = Corneredstretched
+								spriteborder = { 0 0 }
+								blend_mode = multiply
+								alpha = 0.1
+							}	
+							#modify_texture = {
+							#	block "gradient" {
+							#		texture = "gfx/interface/progressbar/progressbar_gradient.dds"
+							#	}
+							#	spriteType = Corneredstretched
+							#	spriteborder = { 0 0 }
+							#	alpha = 0.5
+							#	blend_mode = overlay
+							#}
+											
+						}
+
+						icon = {
+							visible = no
+							#visible = "[GreaterThan_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))), '(float)13')]"
+							parentanchor = center
+							size = { 20 20 }
+							texture = "[InterestGroup.GetTexture]"
+							alpha = 0.4
+
+							modify_texture = {
+								texture = "gfx/interface/backgrounds/gradient_overlay.dds"
+								spriteType = Corneredstretched
+								spriteborder = { 0 0 }
+								blend_mode = overlay
+								alpha = 0.6
+							}
+						}
+
+						visible = "[GreaterThan_CFixedPoint(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+						layoutstretchfactor_horizontal = "[FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+						#minimumsize =  { -1 30 }
+						#width = "[FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+
+	
+						#textbox = {
+						#	parentanchor = center|nobaseline
+						#	autoresize = yes
+						#	text = "[InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue|1]"
+						#}
+		
+					}
+				}	
+			}
+
+
+			widget = {
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				visible = "[GreaterThan_CFixedPoint(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+				layoutstretchfactor_horizontal = "[FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+
+				#background = {
+				#	texture = "gfx/interface/progressbar/bar_horizontal.dds"
+				#	color = { 0.1 0.1 0.1 1 }
+				#	alpha = 1
+					
+				#	modify_texture = {
+				#		using = texture_velvet
+				#	}	
+				#}
+				#textbox = {
+				#	parentanchor = center|nobaseline
+				#	autoresize = yes
+				#	text = "[Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue|1]"
+				#}
+			}
+		}
+
+		widget = {
+			size = { 100% 100% }
+			
+			background = {
+				name = "frame"
+				texture = "gfx/interface/progressbar/progressbar_frame.dds"
+				spriteType = Corneredstretched
+				spriteborder = { 6 6 }
+				texture_density = 2
+				margin = { 3 3 }
+			}
+		}
+	}
+
+	type vpop_tiny_piechart_ig = widget {
+		#parentanchor = center
+		
+		size = { 45 45 }
+		icon = {
+
+			texture = "gfx/interface/backgrounds/round_button_bg.dds"
+			parentanchor = center
+			size = { 40 40 }
+		}
+
+		icon = {
+			parentanchor = center
+			size = { 32 32 }
+			color = { 0.25 0.25 0.25 1 }
+			texture = "gfx/interface/piechart/piechart.dds"
+		}
+
+
+		piechart = {
+			datacontext = "[Building.GetOwner]"
+			datamodel = "[Country.AccessAllInterestGroups]"
+
+			size = { 32 32 }
+
+			parentanchor = center
+			startangle = 450
+			endangle = 90
+
+			#startangle = 0
+			#endangle = "[Subtract_float('(float)360',Multiply_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))),'(float)3.6')))]"
+
+
+
+			item = {
+				pieslice = {
+					block "tooltip" {
+						datacontext = "[GetPlayer]"
+						tooltip = "CLOUT_PIECHART"
+					}
+
+					block "pieslice" {
+						value = "[FixedPointToFloat(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+					}
+
+					block "color" {
+						color = "[InterestGroup.GetColor]"
+					}
+				}
+			}
+		}
+	}
+	
+
+	type vpop_unused_small_pop_portrait_ig = container {
+
+		piechart = {
+			datacontext = "[Building.GetOwner]"
+			datamodel = "[Country.AccessAllInterestGroups]"
+
+			size = { 80% 80% }
+
+			parentanchor = center
+			startangle = 540
+			endangle = 180
+
+				
+
+
+			item = {
+				pieslice = {
+					block "tooltip" {
+						datacontext = "[GetPlayer]"
+						tooltip = "CLOUT_PIECHART"
+					}
+
+					block "pieslice" {
+						value = "[FixedPointToFloat(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+					}
+
+					block "color" {
+						color = "[InterestGroup.GetColor]"
+					}
+				}
+			}
+
+
+		}
+
+		pop_portrait_simple = {
+			parentanchor = hcenter
+
+			datacontext = "[PopListItem.GetFirstPop]"
+
+			blockoverride "portrait_button" {}
+			
+			size = { 50 50 }
+			
+			background = {
+				using = pop_bg
+			}
+			
+			blockoverride "portrait_size" {
+				size = { 50 60 }
 			}
 		}
 	}
