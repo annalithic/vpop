@@ -26,6 +26,10 @@ types vpop_building_types
 			
 		}
 
+		widget = {
+			size = { 5 25 }
+		}
+
 		pop_list = {
 			blockoverride "pop_list_context" {
 				datacontext = "[Building.AccessPopsList]"
@@ -225,19 +229,21 @@ types vpop_building_types
 		#widget = {
 		#	size = { 5 5 }
 		#}
-		
+
+
+
+		vpop_pop_portrait_ig = {}
+
+					
 		textbox = {
 			#visible = no
 			parentanchor = hcenter
 			text = "[PopListItem.GetPopType.GetName]"
 			autoresize = yes
-			margin = { 5 5 }
+			#margin = { 5 0 }
 		}
-
-
-		vpop_pop_portrait_ig = {}
-
-				
+		
+		
 		### INFO FOR WORKFORCE IN BUILDINGS
 		flowcontainer = {
 			direction = vertical
@@ -395,13 +401,52 @@ types vpop_building_types
 			}
 		}
 
+		vpop_radicalism_progressbar = {
+			parentanchor = center
+			blockoverride "value_left" {
+				min = 0
+				max = 100
+				value = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumRadicals)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize)))]"
+			}
+			blockoverride "value_right" {
+				min = 0
+				max = 100
+				value = "[Subtract_float('(float)100',CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumLoyalists)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize))))]"
+			}	
+		}
+
+		textbox = {
+			autoresize = yes
+			text = "[PopListItem.GetNumRadicals]"
+		}
+
+		textbox = {
+			autoresize = yes
+			text = "[PopListItem.GetNumLoyalists]"
+		}
+
+		textbox = {
+			autoresize = yes
+			text = "[PopListItem.GetTotalPopSize]"
+		}
+
+		textbox = {
+			autoresize = yes
+			value = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumRadicals)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize)))]"
+		}
+
+		textbox = {
+			autoresize = yes
+			value = "[Subtract_float('(float)100',CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumLoyalists)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize))))]"
+		}
+
 		vpop_tiny_piechart_ig = {}
 
 
 	}
 
 	type vpop_pop_portrait_ig = container  {
-
+		parentanchor = center
 		#icon = {
 		#	parentanchor = center
 		#	size = { 114 114 }
@@ -762,4 +807,118 @@ types vpop_building_types
 			}
 		}
 	}
+
+	type vpop_radicalism_progressbar = margin_widget {
+		size = { 85% 20 }
+
+
+		### progressbar left
+		widget = {
+
+			size = { 100% 100% }
+
+			background = {
+				texture = "gfx/interface/progressbar/progressbar_empty.dds"
+				spriteType = Corneredtiled
+				spriteborder = { 4 4 }
+				texture_density = 2
+
+				using = progressbar_texture_properties
+			}
+
+
+			scissor = yes
+
+			progressbar = {
+				### REVERSE HACK
+
+				block "negative_textures" {
+					progresstexture = "gfx/interface/progressbar/progressbar_bad.dds"
+					noprogresstexture = "gfx/interface/icons/generic_icons/transparent.dds"
+				}
+
+				size = { 100% 100% }
+				spriteType = Corneredtiled
+				spriteborder = { 4 4 }
+				texture_density = 2
+				skip_initial_animation = yes
+
+				block "negative_min_max_values" {
+					min = -1
+					max = 0
+				}
+
+				block "value_left" {}
+
+				#blockoverride "glow" {
+					#texture = "gfx/interface/icons/generic_icons/transparent.dds"
+				#}
+				#blockoverride "glow_line" {
+					#texture = "gfx/interface/icons/generic_icons/transparent.dds"
+				#}
+
+
+				direction = horizontal
+				using = progressbar_texture_properties
+			}
+		}
+
+		### progressbar right
+		widget = {
+
+			size = { 100% 100% }
+			parentanchor = right
+			scissor = yes
+
+			progressbar = {
+
+				block "positive_textures" {
+					progresstexture = "gfx/interface/icons/generic_icons/transparent.dds"
+					noprogresstexture = "gfx/interface/progressbar/progressbar_green.dds"
+				}
+
+				size = { 100% 100% }
+				spriteType = Corneredtiled
+				spriteborder = { 4 4 }
+				texture_density = 2
+				skip_initial_animation = yes
+
+				block "positive_min_max_values" {
+					min = 0
+					max = 1
+				}
+
+				block "value_right" {}
+
+				direction = horizontal
+
+				using = progressbar_marker_indicator
+
+				blockoverride "glow" {
+					#texture = "gfx/interface/icons/generic_icons/transparent.dds"
+				}
+				blockoverride "glow_line" {
+					#texture = "gfx/interface/icons/generic_icons/transparent.dds"
+				}
+
+				using = progressbar_texture_properties
+			}
+		}
+
+		### frame
+		widget = {
+
+			size = { 100% 100% }
+
+			background = {
+				name = "frame"
+				texture = "gfx/interface/progressbar/progressbar_frame.dds"
+				spriteType = Corneredstretched
+				spriteborder = { 6 6 }
+				texture_density = 2
+				margin = { 3 3 }
+			}
+		}
+	}
+
 }
