@@ -68,31 +68,33 @@ types vpop_building_types
 	type vpop_sgui_test_container = flowcontainer {
 		direction = vertical
 
-		#button = {
-		#	onclick = "[GetScriptedGui('vpop_sgui_test_set').Execute(GuiScope.SetRoot(Building.GetOwner.MakeScope).End)]"
-		#	using = default_button
-		#	size = { 50 20 }
-		#}
+		button = {
+			onclick = "[GetScriptedGui('vpop_sgui_test_set2').Execute(GuiScope.SetRoot(MakeScopeValue(IntToFixedPoint(Building.GetID))).End)]"
+			using = default_button
+			size = { 50 20 }
+		}
 
 		widget = {
 			size = { 5 10 }
-			#background = {
-			#	using = simple_frame
-			#}
+			background = {
+				using = simple_frame
+			}
 			datacontext = "[Building.GetOwner]"
-			datacontext = "[GetScriptedGui('vpop_sgui_test_set')]"
+			datacontext = "[GetScriptedGui('vpop_sgui_test_set2')]"
 			datacontext = "[GetVariableSystem]"
 			state = {
 				#size = { 50 50 }
 				name = a
-				trigger_when = "[Not(Country.MakeScope.Var('vpop_Academics').IsSet)]"
-				on_start = "[ScriptedGui.Execute(GuiScope.SetRoot(Country.MakeScope).End)]"
+				#trigger_on_create = yes
+				#trigger_when = "[Not(GetGlobalVariable('vpop_Recalc').IsSet)]"
+				trigger_when = "[Or(Not(GetGlobalVariable('vpop_Recalc').IsSet),NotEqualTo_CFixedPoint(GetGlobalVariable('vpop_BuildingID').GetValue,IntToFixedPoint(Building.GetID)))]"
+				on_start = "[ScriptedGui.Execute(GuiScope.SetRoot(Building.GetOwner.MakeScope).AddScope('id', MakeScopeValue(IntToFixedPoint(Building.GetID))).End)]"
 				on_start = "[VariableSystem.Toggle('vpop_test_togglevar')]"
-				duration = 0.0001
+				#duration = 1
 				next = b
 			}
 			state = {
-				#size = { 50 20 }
+				#size = { 50 100 }
 				on_start = "[VariableSystem.Clear('vpop_test_togglevar')]"
 				name = b
 			}
@@ -354,13 +356,16 @@ types vpop_building_types
 			size = { 5 8}
 		}
 
-		vpop_barchart_ig = {}
+		#vpop_barchart_ig = {}
+
+		#vpop_textlines_ig = {}
 
 		widget = {
 			size = { 5 8}
 		}
 
 		flowcontainer = {
+			visible = no
 			direction = vertical
 			margin_left = 8
 			margin_bottom = 8
@@ -401,44 +406,70 @@ types vpop_building_types
 			}
 		}
 
-		vpop_radicalism_progressbar = {
-			parentanchor = center
-			blockoverride "value_left" {
-				min = 0
-				max = 100
-				value = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumRadicals)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize)))]"
+		widget = {
+			size = { 100% 26 }
+			hbox = {
+				margin_left = 5
+				margin_right = 5
+				spacing = 2
+				layoutpolicy_horizontal = expanding
+				icon = {
+					layoutpolicy_horizontal = preferred
+					texture = "gfx/interface/icons/generic_icons/population_radical.dds"
+					size = { 20 20 }
+					parentanchor = vcenter
+				}
+				vpop_radicalism_progressbar = {
+					layoutpolicy_horizontal = expanding
+					parentanchor = vcenter
+					#layoutpolicy_vertical = preferred
+					#parentanchor = center
+					blockoverride "value_left" {
+						min = 0
+						max = 100
+						value = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumRadicals)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize)))]"
+					}
+					blockoverride "value_right" {
+						min = 0
+						max = 100
+						value = "[Subtract_float('(float)100',CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumLoyalists)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize))))]"
+					}	
+				}		
+				icon = {
+					layoutpolicy_horizontal = preferred
+					texture = "gfx/interface/icons/generic_icons/population_loyalist.dds"
+					size = { 20 20 }
+					parentanchor = vcenter
+				}
+
 			}
-			blockoverride "value_right" {
-				min = 0
-				max = 100
-				value = "[Subtract_float('(float)100',CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumLoyalists)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize))))]"
-			}	
 		}
 
-		textbox = {
-			autoresize = yes
-			text = "[PopListItem.GetNumRadicals]"
-		}
 
-		textbox = {
-			autoresize = yes
-			text = "[PopListItem.GetNumLoyalists]"
-		}
+		#textbox = {
+		#	autoresize = yes
+		#	text = "[PopListItem.GetNumRadicals]"
+		#}
 
-		textbox = {
-			autoresize = yes
-			text = "[PopListItem.GetTotalPopSize]"
-		}
+		#textbox = {
+		#	autoresize = yes
+		#	text = "[PopListItem.GetNumLoyalists]"
+		#}
 
-		textbox = {
-			autoresize = yes
-			value = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumRadicals)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize)))]"
-		}
+		#textbox = {
+		#	autoresize = yes
+		#	text = "[PopListItem.GetTotalPopSize]"
+		#}
 
-		textbox = {
-			autoresize = yes
-			value = "[Subtract_float('(float)100',CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumLoyalists)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize))))]"
-		}
+		#textbox = {
+		#	autoresize = yes
+		#	value = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumRadicals)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize)))]"
+		#}
+
+		#textbox = {
+		#	autoresize = yes
+		#	value = "[Subtract_float('(float)100',CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumLoyalists)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize))))]"
+		#}
 
 		vpop_tiny_piechart_ig = {}
 
@@ -700,6 +731,36 @@ types vpop_building_types
 		}
 	}
 
+	type vpop_textlines_ig = flowcontainer {
+		parentanchor = hcenter
+		direction = vertical
+
+		datacontext = "[Building.GetOwner]"
+		datamodel = "[Country.AccessAllInterestGroups]"
+
+
+		item = {
+			flowcontainer = {
+				visible = "[GreaterThan_CFixedPoint(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+				textbox = {
+					autoresize = yes
+					text = "[InterestGroup.GetTextIcon]"
+				}
+				textbox = {
+					autoresize = yes
+					text = "[InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue]"
+				}
+	
+			}
+		}
+		
+		textbox = {
+			autoresize = yes
+			text = "[Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue]"
+		}
+	}
+
+
 	type vpop_tiny_piechart_ig = widget {
 		#parentanchor = center
 		
@@ -808,8 +869,8 @@ types vpop_building_types
 		}
 	}
 
-	type vpop_radicalism_progressbar = margin_widget {
-		size = { 85% 20 }
+	type vpop_radicalism_progressbar = widget {
+		size = { 20 16 }
 
 
 		### progressbar left

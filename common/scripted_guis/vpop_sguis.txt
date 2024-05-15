@@ -2,158 +2,22 @@
 	scope = country
 
 	effect = {
-		set_variable = {
-			name = vpop_Academics
-			value = 0
+	}
+}
+
+vpop_sgui_test_set2 = {
+	scope = country
+
+	effect = {
+		set_global_variable = {
+			name = vpop_Recalc
 			days = 1
 		}
-		set_variable = {
-			name = vpop_Aristocrats
-			value = 0
-			days = 1
+		set_global_variable = {
+			name = vpop_BuildingID
+			value = scope:id
 		}
-		set_variable = {
-			name = vpop_Bureaucrats
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Capitalists
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Clergymen
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Clerks
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Engineers
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Farmers
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Laborers
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Machinists
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Officers
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Peasants
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Shopkeepers
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Slaves
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Servicemen
-			value = 0
-			days = 1
-		}
-		every_interest_group = {
-			set_variable = {
-				name = vpop_Academics
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Aristocrats
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Bureaucrats
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Capitalists
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Clergymen
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Clerks
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Engineers
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Farmers
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Laborers
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Machinists
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Officers
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Peasants
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Shopkeepers
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Slaves
-				value = 0
-				days = 1
-			}
-			set_variable = {
-				name = vpop_Servicemen
-				value = 0
-				days = 1
-			}
-		}
+		vpop_effect_clear_values = yes
 	}
 }
 
@@ -161,7 +25,22 @@ vpop_sgui_add_poptype_interest_group = {
 	scope = interest_group
 
 	effect = {
-		vpop_seffect_add_poptype_interest_group = yes
+		if = {
+			limit = {
+				scope:p = {
+					or = {
+						is_pop_type = slaves
+						pop_is_discriminated = yes
+					}
+				}
+			}
+			owner = {
+				vpop_seffect_add_poptype = yes
+			}
+		}
+		else = {
+			vpop_seffect_add_poptype = yes
+		}
 	}
 }
 
@@ -169,6 +48,10 @@ vpop_sgui_add_poptype_country = {
 	scope = country
 
 	effect = {
-		vpop_seffect_add_poptype_country = yes
+		vpop_seffect_add_poptype = yes
+
+		scope:p.culture = {
+			vpop_seffect_add_poptype = yes
+		}
 	}
 }
