@@ -2,13 +2,6 @@
 	scope = country
 
 	effect = {
-	}
-}
-
-vpop_sgui_test_set2 = {
-	scope = country
-
-	effect = {
 		set_global_variable = {
 			name = vpop_Recalc
 			days = 1
@@ -24,7 +17,6 @@ vpop_sgui_test_set2 = {
 		every_scope_culture = {
 			vpop_seffect_clear_poptypes = yes
 		}
-
 	}
 }
 

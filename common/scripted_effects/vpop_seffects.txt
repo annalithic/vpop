@@ -1,245 +1,40 @@
 ﻿vpop_seffect_add_poptype = {
-	if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = academics
-			}
-		}
-		change_variable = {
-			name = vpop_Academics
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = aristocrats
-			}
-		}
-		change_variable = {
-			name = vpop_Aristocrats
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = bureaucrats
-			}
-		}
-		change_variable = {
-			name = vpop_Bureaucrats
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = capitalists
-			}
-		}
-		change_variable = {
-			name = vpop_Capitalists
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = clergymen
-			}
-		}
-		change_variable = {
-			name = vpop_Clergymen
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = clerks
-			}
-		}
-		change_variable = {
-			name = vpop_Clerks
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = engineers
-			}
-		}
-		change_variable = {
-			name = vpop_Engineers
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = farmers
-			}
-		}
-		change_variable = {
-			name = vpop_Farmers
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = laborers
-			}
-		}
-		change_variable = {
-			name = vpop_Laborers
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = machinists
-			}
-		}
-		change_variable = {
-			name = vpop_Machinists
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = officers
-			}
-		}
-		change_variable = {
-			name = vpop_Officers
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = peasants
-			}
-		}
-		change_variable = {
-			name = vpop_Peasants
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = shopkeepers
-			}
-		}
-		change_variable = {
-			name = vpop_Shopkeepers
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = slaves
-			}
-		}
-		change_variable = {
-			name = vpop_Slaves
-			add = $N$
-		}
-	}
-	else_if = {
-		limit = { 
-			scope:p = {
-				is_pop_type = soldiers
-			}
-		}
-		change_variable = {
-			name = vpop_Servicemen
-			add = $N$
+	scope:p = {
+		switch = {
+			trigger = is_pop_type
+			academics   = { prev = { change_variable = { name = vpop_Academics   add = $N$ } }  }
+			aristocrats = { prev = { change_variable = { name = vpop_Aristocrats add = $N$ } }  }
+			bureaucrats = { prev = { change_variable = { name = vpop_Bureaucrats add = $N$ } }  }
+			capitalists = { prev = { change_variable = { name = vpop_Capitalists add = $N$ } }  }
+			clergymen   = { prev = { change_variable = { name = vpop_Clergymen   add = $N$ } }  }
+			clerks      = { prev = { change_variable = { name = vpop_Clerks      add = $N$ } }  }
+			engineers   = { prev = { change_variable = { name = vpop_Engineers   add = $N$ } }  }
+			farmers     = { prev = { change_variable = { name = vpop_Farmers     add = $N$ } }  }
+			laborers    = { prev = { change_variable = { name = vpop_Laborers    add = $N$ } }  }
+			machinists  = { prev = { change_variable = { name = vpop_Machinists  add = $N$ } }  }
+			officers    = { prev = { change_variable = { name = vpop_Officers    add = $N$ } }  }
+			peasants    = { prev = { change_variable = { name = vpop_Peasants    add = $N$ } }  }
+			shopkeepers = { prev = { change_variable = { name = vpop_Shopkeepers add = $N$ } }  }
+			slaves      = { prev = { change_variable = { name = vpop_Slaves      add = $N$ } }  }
+			soldiers    = { prev = { change_variable = { name = vpop_Servicemen  add = $N$ } }  }
 		}
 	}
 }
 
 vpop_seffect_clear_poptypes = {
-	set_variable = {
-		name = vpop_Academics
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Aristocrats
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Bureaucrats
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Capitalists
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Clergymen
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Clerks
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Engineers
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Farmers
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Laborers
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Machinists
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Officers
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Peasants
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Shopkeepers
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Slaves
-		value = 0
-		days = 1
-	}
-	set_variable = {
-		name = vpop_Servicemen
-		value = 0
-		days = 1
-	}
+	set_variable = { value = 0 days = 1 name = vpop_Academics }
+	set_variable = { value = 0 days = 1 name = vpop_Aristocrats }
+	set_variable = { value = 0 days = 1 name = vpop_Bureaucrats }
+	set_variable = { value = 0 days = 1 name = vpop_Capitalists }
+	set_variable = { value = 0 days = 1 name = vpop_Clergymen }
+	set_variable = { value = 0 days = 1 name = vpop_Clerks }
+	set_variable = { value = 0 days = 1 name = vpop_Engineers }
+	set_variable = { value = 0 days = 1 name = vpop_Farmers }
+	set_variable = { value = 0 days = 1 name = vpop_Laborers }
+	set_variable = { value = 0 days = 1 name = vpop_Machinists }
+	set_variable = { value = 0 days = 1 name = vpop_Officers }
+	set_variable = { value = 0 days = 1 name = vpop_Peasants }
+	set_variable = { value = 0 days = 1 name = vpop_Shopkeepers }
+	set_variable = { value = 0 days = 1 name = vpop_Slaves }
+	set_variable = { value = 0 days = 1 name = vpop_Servicemen }
 }

@@ -75,19 +75,13 @@ types vpop_building_types
 	type vpop_sgui_test_container = flowcontainer {
 		direction = vertical
 
-		button = {
-			onclick = "[GetScriptedGui('vpop_sgui_test_set2').Execute(GuiScope.SetRoot(MakeScopeValue(IntToFixedPoint(Building.GetID))).End)]"
-			using = default_button
-			size = { 50 20 }
-		}
-
 		widget = {
 			size = { 5 10 }
 			background = {
 				using = simple_frame
 			}
 			datacontext = "[Building.GetOwner]"
-			datacontext = "[GetScriptedGui('vpop_sgui_test_set2')]"
+			datacontext = "[GetScriptedGui('vpop_sgui_test_set')]"
 			datacontext = "[GetVariableSystem]"
 			state = {
 				#size = { 50 50 }
@@ -95,7 +89,7 @@ types vpop_building_types
 				#trigger_on_create = yes
 				#trigger_when = "[Not(GetGlobalVariable('vpop_Recalc').IsSet)]"
 				trigger_when = "[Or(Not(GetGlobalVariable('vpop_Recalc').IsSet),NotEqualTo_CFixedPoint(GetGlobalVariable('vpop_BuildingID').GetValue,IntToFixedPoint(Building.GetID)))]"
-				on_start = "[ScriptedGui.Execute(GuiScope.SetRoot(Building.GetOwner.MakeScope).AddScope('id', MakeScopeValue(IntToFixedPoint(Building.GetID))).End)]"
+				on_start = "[ScriptedGui.Execute(GuiScope.SetRoot(Building.GetOwner.MakeScope).AddScope('id', MakeScopeValue(IntToFixedPoint(Building.GetID))).AddScope('test',MakeScopeFlag('vpop_testvar')).End)]"
 				on_start = "[VariableSystem.Toggle('vpop_test_togglevar')]"
 				#duration = 1
 				next = b
