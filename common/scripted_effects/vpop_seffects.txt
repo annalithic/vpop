@@ -7,7 +7,7 @@
 		}
 		change_variable = {
 			name = vpop_Academics
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -18,7 +18,7 @@
 		}
 		change_variable = {
 			name = vpop_Aristocrats
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -29,7 +29,7 @@
 		}
 		change_variable = {
 			name = vpop_Bureaucrats
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -40,7 +40,7 @@
 		}
 		change_variable = {
 			name = vpop_Capitalists
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -51,7 +51,7 @@
 		}
 		change_variable = {
 			name = vpop_Clergymen
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -62,7 +62,7 @@
 		}
 		change_variable = {
 			name = vpop_Clerks
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -73,7 +73,7 @@
 		}
 		change_variable = {
 			name = vpop_Engineers
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -84,7 +84,7 @@
 		}
 		change_variable = {
 			name = vpop_Farmers
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -95,7 +95,7 @@
 		}
 		change_variable = {
 			name = vpop_Laborers
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -106,7 +106,7 @@
 		}
 		change_variable = {
 			name = vpop_Machinists
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -117,7 +117,7 @@
 		}
 		change_variable = {
 			name = vpop_Officers
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -128,7 +128,7 @@
 		}
 		change_variable = {
 			name = vpop_Peasants
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -139,7 +139,7 @@
 		}
 		change_variable = {
 			name = vpop_Shopkeepers
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -150,7 +150,7 @@
 		}
 		change_variable = {
 			name = vpop_Slaves
-			add = scope:n
+			add = $N$
 		}
 	}
 	else_if = {
@@ -161,12 +161,12 @@
 		}
 		change_variable = {
 			name = vpop_Servicemen
-			add = scope:n
+			add = $N$
 		}
 	}
 }
 
-vpop_effect_clear_values = {
+vpop_seffect_clear_poptypes = {
 	set_variable = {
 		name = vpop_Academics
 		value = 0
@@ -241,82 +241,5 @@ vpop_effect_clear_values = {
 		name = vpop_Servicemen
 		value = 0
 		days = 1
-	}
-	every_interest_group = {
-		set_variable = {
-			name = vpop_Academics
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Aristocrats
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Bureaucrats
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Capitalists
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Clergymen
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Clerks
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Engineers
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Farmers
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Laborers
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Machinists
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Officers
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Peasants
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Shopkeepers
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Slaves
-			value = 0
-			days = 1
-		}
-		set_variable = {
-			name = vpop_Servicemen
-			value = 0
-			days = 1
-		}
 	}
 }

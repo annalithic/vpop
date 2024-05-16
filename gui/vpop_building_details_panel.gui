@@ -26,6 +26,13 @@ types vpop_building_types
 			
 		}
 
+		vpop_pop_list_horizontal = {
+			blockoverride "pop_list_context" {
+				datacontext = "[Building.AccessPopsList]"
+				datacontext = "[Building]"
+			}
+		}
+
 		widget = {
 			size = { 5 25 }
 		}
@@ -180,7 +187,7 @@ types vpop_building_types
 								visible = "[GetVariableSystem.Exists('vpop_test_togglevar')]"
 								state = {
 									name = _show
-									on_start = "[GetScriptedGui('vpop_sgui_add_poptype_country').Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('p', Pop.MakeScope).AddScope('n', MakeScopeValue(IntToFixedPoint(Select_int64(Pop.IsSlave,Pop.GetNumWorkforce,Pop.GetNumPoliticallyInactive)))).End)]"
+									on_start = "[GetScriptedGui('vpop_sgui_add_poptype_country').Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('p', Pop.MakeScope).AddScope('n',MakeScopeValue(IntToFixedPoint(Pop.GetNumWorkforce))).AddScope('u', MakeScopeValue(IntToFixedPoint(Pop.GetNumPoliticallyInactive))).End)]"
 								}
 								size = { 5 5 }
 								background = {
@@ -222,6 +229,29 @@ types vpop_building_types
 		}
 	}
 
+	type vpop_pop_list_horizontal = dynamicgridbox {
+		#direction = vertical
+		#using = default_list_position		
+		datamodel = "[PopList.AccessPopList]"
+
+		block "pop_list_context" {}
+
+		item = {
+			flowcontainer = {
+				direction = vertical
+				spacing = 0
+
+				background = {
+					using = entry_bg
+				}
+
+				vpop_pop_list_item_horizontal = {}
+
+				### EXPANDABLE ENTRY
+			}
+		}
+	}
+
 	type vpop_pop_list_item = flowcontainer {
 
 		direction = vertical
@@ -234,7 +264,9 @@ types vpop_building_types
 
 
 
-		vpop_pop_portrait_ig = {}
+		vpop_pop_portrait_ig = {
+			parentanchor = hcenter
+		}
 
 					
 		textbox = {
@@ -246,62 +278,9 @@ types vpop_building_types
 		}
 		
 		
-		### INFO FOR WORKFORCE IN BUILDINGS
-		flowcontainer = {
-			direction = vertical
+		vpop_employment_bar = {
 			parentanchor = hcenter
-			visible = "[PopList.HasBuildingContext]"
-			datacontext = "[PopList.GetBuildingContext]"
-			margin_right = 10 
-
-
-			### WORKERS
-			flowcontainer = {
-				parentanchor = hcenter
-				direction = vertical
-				tooltip = "[PopListItem.GetEmploymentDesc()]"
-				spacing = 4
-				margin_top = 4
-				margin_bottom = 10
-
-				textbox = {
-					text = "[Building.GetPopTypeFullyReplacedDesc(PopListItem.GetPopType)]"
-					align = left|nobaseline
-					autoresize = yes
-				}
-
-				default_progressbar_horizontal = {
-					parentanchor = hcenter
-					size = { 120 23 }
-					visible = "[Not(Building.IsRoleFullyReplacedByAnotherPopType(PopListItem.GetPopType))]"
-					blockoverride "values" {
-						min = -1    # Set to -1, otherwise zero slaves bar (before starts hiring) will be constantly filling up
-						max = "[IntToFloat(Building.GetMaxPopSize(PopListItem.GetPopType))]"
-						value = "[IntToFloat(PopListItem.GetWorkingAdultsPopSize)]"
-					}
-					
-					flowcontainer = {
-						parentanchor = vcenter
-						margin_left = 10
-						textbox = {
-							raw_text = "#bold [PopListItem.GetWorkingAdultsPopSize|D]#!"
-							autoresize = yes
-							align = center|nobaseline
-							parentanchor = vcenter
-						}
-
-						textbox = {
-							visible = "[LessThan_int64(PopListItem.GetWorkingAdultsPopSize, Building.GetMaxPopSize(PopListItem.GetPopType))]"
-							margin_left = 7
-							raw_text = "/ #maximum [Building.GetMaxPopSize(PopListItem.GetPopType)|D]#!"
-							autoresize = yes
-							align = center|nobaseline
-							parentanchor = vcenter
-						}
-					}
-				}
-			}
-		}		
+		}
 		
 
 		widget = {
@@ -314,7 +293,6 @@ types vpop_building_types
 				visible = "[Not(Building.IsRoleFullyReplacedByAnotherPopType(PopListItem.GetPopType))]"
 				text = "VPOP_POP_LIST_WAGE"
 				align = left|nobaseline
-				#autoresize = yes
 				tooltip = "ANNUAL_WAGE_TOOLTIP"
 				alpha = "[TransparentIfFalse(GreaterThan_CFixedPoint(PopListItem.GetAverageAnnualWage, '(CFixedPoint)0'))]"
 			}
@@ -327,12 +305,8 @@ types vpop_building_types
 				parentanchor = right|top
 				visible = "[GreaterThan_int64( PopListItem.GetWorkingAdultsPopSize, '(int64)0' )]"
 				text = "VPOP_POP_LIST_SOL"
-				#autoresize = yes
 				align = right|nobaseline
 				tooltip = "POPS_LIST_SOL_TOOLTIP"
-				#max_width = 140
-				#fontsize_min = 12
-				#elide = right
 			}
 			
 		}
@@ -368,8 +342,8 @@ types vpop_building_types
 			visible = no
 			direction = vertical
 			margin_left = 8
-			margin_bottom = 8
-			parentanchor = vcenter
+			#margin_bottom = 8
+			#parentanchor = vcenter
 
 			flowcontainer = {
 				spacing = 2
@@ -471,13 +445,66 @@ types vpop_building_types
 		#	value = "[Subtract_float('(float)100',CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(IntToFixedPoint(PopListItem.GetNumLoyalists)),FixedPointToInt(IntToFixedPoint(PopListItem.GetTotalPopSize))))]"
 		#}
 
-		vpop_tiny_piechart_ig = {}
+		flowcontainer = {
+			vpop_tiny_piechart_ig = {}
+			vpop_tiny_piechart_culture = {}	
+		}
 
+
+		vpop_textlines_culture = {}
+
+		widget = {
+			size = { 5 5 }
+		}
 
 	}
 
+	type vpop_pop_list_item_horizontal = widget {
+
+		datacontext = "[PopListItem.GetPopType]"
+
+		size = { @panel_width_minus_10 125}
+		#widget = {
+		#	size = { 5 5 }
+		#}
+
+
+		hbox = {
+			vpop_pop_portrait_ig = {}
+
+			vbox = {
+				layoutpolicy_horizontal = expanding
+
+				hbox = {
+					layoutpolicy_horizontal = expanding
+
+					textbox = {
+						#parentanchor = vcenter
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = preferred
+						text = "[PopListItem.GetPopType.GetName]"
+						#autoresize = yes
+					}
+					
+					
+					vpop_employment_bar = {
+						layoutpolicy_horizontal = fixed
+						#parentanchor = vcenter
+					}
+		
+					#expand = {}		
+				}
+
+				expand = {}
+			}
+			
+		}
+
+	}
+
+
 	type vpop_pop_portrait_ig = container  {
-		parentanchor = center
+		#parentanchor = center
 		#icon = {
 		#	parentanchor = center
 		#	size = { 114 114 }
@@ -760,6 +787,43 @@ types vpop_building_types
 		}
 	}
 
+	type vpop_textlines_culture = flowcontainer {
+		#parentanchor = hcenter
+		direction = vertical
+
+		datacontext = "[Building.GetOwner]"
+		datamodel = "[Country.AccessPopCulturesSortedByPopulation]"
+
+		item = {
+			textbox = {
+				visible = "[GreaterThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+				size = {100% 20 }
+				#elide = right
+				text = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)))|0]% [Culture.GetName]"
+			}
+		}
+	}
+
+	type vpop_tiny_piechart_culture = vpop_tiny_piechart_ig {
+		blockoverride "contextmodel" {
+			datacontext = "[Building.GetOwner]"
+			datamodel = "[Country.AccessPopCulturesSortedByPopulation]"	
+		}
+
+		blockoverride "pieslice" {
+			#value = "['(CFixedPoint)100']"
+			value = "[FixedPointToFloat(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+		}
+
+		blockoverride "tooltip" {
+			datacontext = "[GetPlayer]"
+			tooltip = "CULTURE_PIECHART"
+		}
+
+		blockoverride "color" {
+			color = "[Culture.GetColor]"
+		}
+	}
 
 	type vpop_tiny_piechart_ig = widget {
 		#parentanchor = center
@@ -781,8 +845,10 @@ types vpop_building_types
 
 
 		piechart = {
-			datacontext = "[Building.GetOwner]"
-			datamodel = "[Country.AccessAllInterestGroups]"
+			block "contextmodel" {
+				datacontext = "[Building.GetOwner]"
+				datamodel = "[Country.AccessAllInterestGroups]"	
+			}
 
 			size = { 32 32 }
 
@@ -981,5 +1047,58 @@ types vpop_building_types
 			}
 		}
 	}
+	type vpop_employment_bar = flowcontainer {
+		direction = vertical
+		visible = "[PopList.HasBuildingContext]"
+		datacontext = "[PopList.GetBuildingContext]"
+		margin_right = 10 
 
+
+		### WORKERS
+		flowcontainer = {
+			parentanchor = hcenter
+			direction = vertical
+			tooltip = "[PopListItem.GetEmploymentDesc()]"
+			spacing = 4
+			margin_top = 4
+			margin_bottom = 10
+
+			textbox = {
+				text = "[Building.GetPopTypeFullyReplacedDesc(PopListItem.GetPopType)]"
+				align = left|nobaseline
+				autoresize = yes
+			}
+
+			default_progressbar_horizontal = {
+				parentanchor = hcenter
+				size = { 120 23 }
+				visible = "[Not(Building.IsRoleFullyReplacedByAnotherPopType(PopListItem.GetPopType))]"
+				blockoverride "values" {
+					min = -1    # Set to -1, otherwise zero slaves bar (before starts hiring) will be constantly filling up
+					max = "[IntToFloat(Building.GetMaxPopSize(PopListItem.GetPopType))]"
+					value = "[IntToFloat(PopListItem.GetWorkingAdultsPopSize)]"
+				}
+				
+				flowcontainer = {
+					parentanchor = vcenter
+					margin_left = 10
+					textbox = {
+						raw_text = "#bold [PopListItem.GetWorkingAdultsPopSize|D]#!"
+						autoresize = yes
+						align = center|nobaseline
+						parentanchor = vcenter
+					}
+
+					textbox = {
+						visible = "[LessThan_int64(PopListItem.GetWorkingAdultsPopSize, Building.GetMaxPopSize(PopListItem.GetPopType))]"
+						margin_left = 7
+						raw_text = "/ #maximum [Building.GetMaxPopSize(PopListItem.GetPopType)|D]#!"
+						autoresize = yes
+						align = center|nobaseline
+						parentanchor = vcenter
+					}
+				}
+			}
+		}
+	}		
 }
