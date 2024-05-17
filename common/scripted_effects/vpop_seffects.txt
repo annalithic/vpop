@@ -21,6 +21,29 @@
 	}
 }
 
+vpop_seffect_add_poptype_r = {
+	scope:p = {
+		switch = {
+			trigger = is_pop_type
+			academics   = { prev = { change_variable = { name = vpop_r_Academics   add = $N$ } }  }
+			aristocrats = { prev = { change_variable = { name = vpop_r_Aristocrats add = $N$ } }  }
+			bureaucrats = { prev = { change_variable = { name = vpop_r_Bureaucrats add = $N$ } }  }
+			capitalists = { prev = { change_variable = { name = vpop_r_Capitalists add = $N$ } }  }
+			clergymen   = { prev = { change_variable = { name = vpop_r_Clergymen   add = $N$ } }  }
+			clerks      = { prev = { change_variable = { name = vpop_r_Clerks      add = $N$ } }  }
+			engineers   = { prev = { change_variable = { name = vpop_r_Engineers   add = $N$ } }  }
+			farmers     = { prev = { change_variable = { name = vpop_r_Farmers     add = $N$ } }  }
+			laborers    = { prev = { change_variable = { name = vpop_r_Laborers    add = $N$ } }  }
+			machinists  = { prev = { change_variable = { name = vpop_r_Machinists  add = $N$ } }  }
+			officers    = { prev = { change_variable = { name = vpop_r_Officers    add = $N$ } }  }
+			peasants    = { prev = { change_variable = { name = vpop_r_Peasants    add = $N$ } }  }
+			shopkeepers = { prev = { change_variable = { name = vpop_r_Shopkeepers add = $N$ } }  }
+			slaves      = { prev = { change_variable = { name = vpop_r_Slaves      add = $N$ } }  }
+			soldiers    = { prev = { change_variable = { name = vpop_r_Servicemen  add = $N$ } }  }
+		}
+	}
+}
+
 vpop_seffect_clear_poptypes = {
 	set_variable = { value = 0 days = 1 name = vpop_Academics }
 	set_variable = { value = 0 days = 1 name = vpop_Aristocrats }
@@ -37,4 +60,22 @@ vpop_seffect_clear_poptypes = {
 	set_variable = { value = 0 days = 1 name = vpop_Shopkeepers }
 	set_variable = { value = 0 days = 1 name = vpop_Slaves }
 	set_variable = { value = 0 days = 1 name = vpop_Servicemen }
+}
+
+vpop_seffect_clear_poptypes_r = {
+	set_variable = { value = 0 days = 1 name = vpop_r_Academics }
+	set_variable = { value = 0 days = 1 name = vpop_r_Aristocrats }
+	set_variable = { value = 0 days = 1 name = vpop_r_Bureaucrats }
+	set_variable = { value = 0 days = 1 name = vpop_r_Capitalists }
+	set_variable = { value = 0 days = 1 name = vpop_r_Clergymen }
+	set_variable = { value = 0 days = 1 name = vpop_r_Clerks }
+	set_variable = { value = 0 days = 1 name = vpop_r_Engineers }
+	set_variable = { value = 0 days = 1 name = vpop_r_Farmers }
+	set_variable = { value = 0 days = 1 name = vpop_r_Laborers }
+	set_variable = { value = 0 days = 1 name = vpop_r_Machinists }
+	set_variable = { value = 0 days = 1 name = vpop_r_Officers }
+	set_variable = { value = 0 days = 1 name = vpop_r_Peasants }
+	set_variable = { value = 0 days = 1 name = vpop_r_Shopkeepers }
+	set_variable = { value = 0 days = 1 name = vpop_r_Slaves }
+	set_variable = { value = 0 days = 1 name = vpop_r_Servicemen }
 }

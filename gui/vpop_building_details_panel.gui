@@ -26,18 +26,24 @@ types vpop_building_types
 			
 		}
 
+		widget = {
+			size = { 5 350 }
+		}
+
 		vpop_pop_list_horizontal = {
+			visible = no
 			blockoverride "pop_list_context" {
 				datacontext = "[Building.AccessPopsList]"
 				datacontext = "[Building]"
 			}
 		}
 
-		widget = {
-			size = { 5 25 }
-		}
+		#widget = {
+		#	size = { 5 25 }
+		#}
 
 		pop_list = {
+			#visible = no
 			blockoverride "pop_list_context" {
 				datacontext = "[Building.AccessPopsList]"
 				datacontext = "[Building]"
@@ -77,9 +83,9 @@ types vpop_building_types
 
 		widget = {
 			size = { 5 10 }
-			background = {
-				using = simple_frame
-			}
+			#background = {
+			#	using = simple_frame
+			#}
 			datacontext = "[Building.GetOwner]"
 			datacontext = "[GetScriptedGui('vpop_sgui_test_set')]"
 			datacontext = "[GetVariableSystem]"
@@ -174,6 +180,7 @@ types vpop_building_types
 					#}
 					dynamicgridbox = {
 
+						datacontext  = "[PopListItem.GetFirstPop.GetReligion]"
 						datamodel = "[PopListItem.GetPops]"
 	
 						item = {
@@ -181,7 +188,7 @@ types vpop_building_types
 								visible = "[GetVariableSystem.Exists('vpop_test_togglevar')]"
 								state = {
 									name = _show
-									on_start = "[GetScriptedGui('vpop_sgui_add_poptype_country').Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('p', Pop.MakeScope).AddScope('n',MakeScopeValue(IntToFixedPoint(Pop.GetNumWorkforce))).AddScope('u', MakeScopeValue(IntToFixedPoint(Pop.GetNumPoliticallyInactive))).End)]"
+									on_start = "[GetScriptedGui('vpop_sgui_add_poptype_country').Execute(GuiScope.SetRoot(Country.MakeScope).AddScope('p', Pop.MakeScope).AddScope('n',MakeScopeValue(IntToFixedPoint(Pop.GetNumWorkforce))).AddScope('u', MakeScopeValue(IntToFixedPoint(Pop.GetNumPoliticallyInactive))).AddScope('r', Religion.MakeScope).End)]"
 								}
 								size = { 5 5 }
 								background = {
@@ -320,17 +327,17 @@ types vpop_building_types
 			}
 		}
 		
-		widget = {
-			size = { 5 8}
-		}
+		#widget = {
+		#	size = { 5 8}
+		#}
 
 		#vpop_barchart_ig = {}
 
 		#vpop_textlines_ig = {}
 
-		widget = {
-			size = { 5 8}
-		}
+		#widget = {
+		#	size = { 5 8}
+		#}
 
 		flowcontainer = {
 			visible = no
@@ -440,15 +447,29 @@ types vpop_building_types
 		#}
 
 		flowcontainer = {
+			visible = no
 			vpop_tiny_piechart_ig = {}
 			vpop_tiny_piechart_culture = {}	
 		}
 
-
-		vpop_textlines_culture = {}
-
 		widget = {
 			size = { 5 5 }
+		}
+
+		vpop_textline_culture = {
+			#margin_left = 5
+		}
+
+		#widget = {
+		#	size = { 5 5 }
+		#}
+
+		vpop_textline_state_religion = {
+			#margin_left = 5
+		}
+
+		widget = {
+			size = { 5 10 }
 		}
 
 	}
@@ -782,21 +803,145 @@ types vpop_building_types
 	}
 
 	type vpop_textlines_culture = flowcontainer {
-		#parentanchor = hcenter
+		parentanchor = hcenter
 		direction = vertical
 
 		datacontext = "[Building.GetOwner]"
-		datamodel = "[Country.AccessPopCulturesSortedByPopulation]"
+		datamodel = "[DataModelFirst(Country.AccessPopCulturesSortedByPopulation,'(int32)1')]"
 
 		item = {
-			textbox = {
-				visible = "[GreaterThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
-				size = {100% 20 }
-				#elide = right
-				text = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)))|0]% [Culture.GetName]"
+			button = {
+				size = { 120 27 }
+				#visible = "[GreaterThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+
+				#parentanchor = hcenter
+				using = default_button
+				onclick = "[InformationPanelBar.OpenCultureInfoPanel(Culture.AccessSelf)]"
+
+
+				textbox = {
+					size = { 100% 100% }
+					align = right|nobaseline
+					margin_right = 10
+					visible = "[LessThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))]"
+					#elide = right
+					#autoresize = yes
+					text = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)))|1]%"
+				}
+				textbox = {
+					size = { 100% 100% }
+					align = left|nobaseline
+					margin_left = 10
+					#elide = right
+					#autoresize = yes
+					text = "[Culture.GetName]"
+				}	
+				
+
 			}
+
 		}
 	}
+
+	
+	type vpop_textline_culture = button {
+		parentanchor = hcenter
+		datacontext = "[Building.GetOwner]"
+		datacontext = "[PopListItem.GetFirstPop.GetCulture]"
+
+
+		size = { 120 27 }
+		#visible = "[GreaterThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+
+		#parentanchor = hcenter
+		using = default_button
+		onclick = "[InformationPanelBar.OpenCultureInfoPanel(Culture.AccessSelf)]"
+
+		hbox = {
+			margin_left = 4
+			icon = {
+				visible = "[Culture.IsDiscriminatedIn(Country.Self)]"
+				texture = "gfx/interface/icons/generic_icons/discriminated_icon.dds"
+				size = { 20 20 }
+				#parentanchor = vcenter
+			}
+			textbox = {
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				#size = { 100% 100% }
+				align = left|nobaseline
+				margin_left = 2
+				fontsize_min = 12
+				elide = right
+				#autoresize = yes
+				text = "[Culture.GetName]"
+			}		
+			textbox = {
+				#size = { 100% 100% }
+				align = right|nobaseline
+				margin_right = 6
+				visible = "[LessThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,Multiply_CFixedPoint(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize),'(CFixedPoint)0.995'))]"
+				#elide = right
+				autoresize = yes
+				text = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)))|0]%"
+			}
+	
+		}
+				
+
+	}
+
+	type vpop_textline_state_religion = button {
+		parentanchor = hcenter
+		size = { 120 27 }
+		#visible = "[GreaterThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+
+		#parentanchor = hcenter
+		using = default_button
+		datacontext = "[Building.GetOwner]"
+		#datacontext = "[Country.AccessStateReligion]"
+		datacontext = "[PopListItem.GetFirstPop.GetReligion]"
+
+		onclick = "[InformationPanelBar.OpenReligionInfoPanel(Religion.AccessSelf)]"
+
+		hbox = {
+			margin_left = 4
+			icon = {
+				visible = "[Religion.IsDiscriminatedIn(Country.Self)]"
+				texture = "gfx/interface/icons/generic_icons/discriminated_icon.dds"
+				size = { 20 20 }
+				#parentanchor = vcenter
+			}
+			textbox = {
+				layoutpolicy_horizontal = expanding
+				layoutpolicy_vertical = expanding
+				#size = { 50% 100% }
+				align = left|nobaseline
+				margin_left = 2
+				#fontsize = 16
+				fontsize_min = 12
+				elide = right
+				#autoresize = yes
+				text = "[Religion.GetName]"
+			}
+			textbox = {
+				#size = { 100% 100% }
+				align = right|nobaseline
+				margin_right = 6
+				visible = "[LessThan_CFixedPoint(Country.MakeScope.Var(Concatenate('vpop_r_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,Multiply_CFixedPoint(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize),'(CFixedPoint)0.995'))]"
+				#elide = right
+				autoresize = yes
+				text = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_r_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)))|0]%"
+			}
+		}
+
+		
+	}
+
+	#type vpop_textline_state_religion = textbox {
+	#	size = {100% 20 }
+		#text = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Culture.MakeScope.Var(Concatenate('vpop_r_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)))|0]% [Country.AccessStateReligion.GetName]"
+	#}
 
 	type vpop_tiny_piechart_culture = vpop_tiny_piechart_ig {
 		blockoverride "contextmodel" {

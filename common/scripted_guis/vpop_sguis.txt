@@ -11,6 +11,8 @@
 			value = scope:id
 		}
 		vpop_seffect_clear_poptypes = yes
+		vpop_seffect_clear_poptypes_r = yes
+
 		every_interest_group = {
 			vpop_seffect_clear_poptypes = yes
 		}
@@ -34,16 +36,12 @@ vpop_sgui_add_poptype_interest_group = {
 				}
 			}
 			owner = {
-				vpop_seffect_add_poptype = {
-					N = scope:n
-				}
+				vpop_seffect_add_poptype = { N = scope:n }
 			}
 		}
 
 		else = {
-			vpop_seffect_add_poptype = {
-				N = scope:n
-			}
+			vpop_seffect_add_poptype = { N = scope:n }
 		}
 	}
 }
@@ -52,14 +50,19 @@ vpop_sgui_add_poptype_country = {
 	scope = country
 
 	effect = {
-		vpop_seffect_add_poptype = {
-			N = scope:u
-		}
+		vpop_seffect_add_poptype = { N = scope:u }
 
 		scope:p.culture = {
-			vpop_seffect_add_poptype = {
-				N = scope:n
+			vpop_seffect_add_poptype = { N = scope:n }
+		}
+
+		if = {
+			limit = {
+				scope:p.religion = {
+					this = scope:r
+				}
 			}
+			vpop_seffect_add_poptype_r = { N = scope:n }
 		}
 	}
 }
