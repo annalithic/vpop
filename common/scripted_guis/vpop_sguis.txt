@@ -10,14 +10,14 @@
 			name = vpop_BuildingID
 			value = scope:id
 		}
-		vpop_seffect_clear_poptypes = yes
-		vpop_seffect_clear_poptypes_r = yes
+		vpop_seffect_clear_poptypes = { X = b }
+		vpop_seffect_clear_poptypes = { X = r }
 
 		every_interest_group = {
-			vpop_seffect_clear_poptypes = yes
+			vpop_seffect_clear_poptypes = { X = b }
 		}
 		every_scope_culture = {
-			vpop_seffect_clear_poptypes = yes
+			vpop_seffect_clear_poptypes = { X = b }
 		}
 	}
 }
@@ -36,12 +36,12 @@ vpop_sgui_add_poptype_interest_group = {
 				}
 			}
 			owner = {
-				vpop_seffect_add_poptype = { N = scope:n }
+				vpop_seffect_add_poptype = { N = scope:n X = b  }
 			}
 		}
-
+		
 		else = {
-			vpop_seffect_add_poptype = { N = scope:n }
+			vpop_seffect_add_poptype = { N = scope:n X = b }
 		}
 	}
 }
@@ -50,10 +50,10 @@ vpop_sgui_add_poptype_country = {
 	scope = country
 
 	effect = {
-		vpop_seffect_add_poptype = { N = scope:u }
+		vpop_seffect_add_poptype = { N = scope:u  X = b }
 
 		scope:p.culture = {
-			vpop_seffect_add_poptype = { N = scope:n }
+			vpop_seffect_add_poptype = { N = scope:n X = b }
 		}
 
 		if = {
@@ -62,7 +62,13 @@ vpop_sgui_add_poptype_country = {
 					this = scope:r
 				}
 			}
-			vpop_seffect_add_poptype_r = { N = scope:n }
+			vpop_seffect_add_poptype = { N = scope:n  X = r }
 		}
+	}
+}
+
+vpop_sgui_test = {
+	effect = {
+		vpop_seffect_test = { N = ABF }
 	}
 }

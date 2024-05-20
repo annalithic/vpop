@@ -14,6 +14,8 @@ types vpop_building_types
 	type vpop_bulding_pop_overview = flowcontainer {
 		direction = vertical
 
+		vpop_test_block = {}
+
 		vpop_pop_list = {
 			blockoverride "pop_list_context" {
 				datacontext = "[Building.AccessPopsList]"
@@ -107,11 +109,12 @@ types vpop_building_types
 			}
 		}
 
-		#button = {
-		#	onclick = "[GetScriptedGui('vpop_sgui_test_add').Execute(GuiScope.SetRoot(Building.GetState.MakeScope).AddScope('number', MakeScopeValue('(CFixedPoint)5')).End)]"
-		#	using = default_button
-		#	size = { 50 20 }
-		#}
+		button = {
+			datacontext = "[GetScriptedGui('vpop_sgui_test_set')]"
+			on_start = "[ScriptedGui.Execute(GuiScope.SetRoot(Building.GetOwner.MakeScope).AddScope('id', MakeScopeValue(IntToFixedPoint(Building.GetID))).End)]"
+			using = default_button
+			size = { 50 20 }
+		}
 		
 		#button = {
 		#	onclick = "[GetVariableSystem.Toggle('vpop_test_togglevar')]"
@@ -534,15 +537,15 @@ types vpop_building_types
 
 			size = { 114 114 }
 
-			#alpha = "[Subtract_float('(float)1',Multiply_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))),'(float)0.005'))]"
-			visible = "[GreaterThan_CFixedPoint(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize),Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+			#alpha = "[Subtract_float('(float)1',Multiply_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))),'(float)0.005'))]"
+			visible = "[GreaterThan_CFixedPoint(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize),Country.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
 
 			parentanchor = center
 			startangle = 180
 			endangle = 540
 			
 			#startangle = 0
-			#endangle = "[Subtract_float('(float)360',Multiply_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))),'(float)3.6')))]"
+			#endangle = "[Subtract_float('(float)360',Multiply_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))),'(float)3.6')))]"
 
 				
 
@@ -555,7 +558,7 @@ types vpop_building_types
 					}
 
 					block "pieslice" {
-						value = "[FixedPointToFloat(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+						value = "[FixedPointToFloat(InterestGroup.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
 					}
 
 					block "color" {
@@ -605,7 +608,7 @@ types vpop_building_types
 			textbox = {
 				datacontext = "[Building.GetOwner]"
 				autoresize = yes
-				text = "[Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue]"
+				text = "[Country.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue]"
 			}
 			textbox = {
 				datacontext = "[Building.GetOwner]"
@@ -615,7 +618,7 @@ types vpop_building_types
 			textbox = {
 				datacontext = "[Building.GetOwner]"
 				autoresize = yes
-				text = "[Subtract_float('(float)1',Multiply_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))),'(float)0.01'))]"
+				text = "[Subtract_float('(float)1',Multiply_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))),'(float)0.01'))]"
 
 			}
 		}
@@ -647,7 +650,7 @@ types vpop_building_types
 
 
 			hbox = {
-				layoutstretchfactor_horizontal = "[Subtract_int32(FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)), FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue))]"
+				layoutstretchfactor_horizontal = "[Subtract_int32(FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)), FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue))]"
 
 				layoutpolicy_horizontal = expanding
 				layoutpolicy_vertical = expanding
@@ -704,7 +707,7 @@ types vpop_building_types
 
 						icon = {
 							visible = no
-							#visible = "[GreaterThan_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))), '(float)13')]"
+							#visible = "[GreaterThan_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))), '(float)13')]"
 							parentanchor = center
 							size = { 20 20 }
 							texture = "[InterestGroup.GetTexture]"
@@ -719,16 +722,16 @@ types vpop_building_types
 							}
 						}
 
-						visible = "[GreaterThan_CFixedPoint(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
-						layoutstretchfactor_horizontal = "[FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+						visible = "[GreaterThan_CFixedPoint(InterestGroup.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+						layoutstretchfactor_horizontal = "[FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
 						#minimumsize =  { -1 30 }
-						#width = "[FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+						#width = "[FixedPointToInt(InterestGroup.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
 
 	
 						#textbox = {
 						#	parentanchor = center|nobaseline
 						#	autoresize = yes
-						#	text = "[InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue|1]"
+						#	text = "[InterestGroup.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue|1]"
 						#}
 		
 					}
@@ -739,8 +742,8 @@ types vpop_building_types
 			widget = {
 				layoutpolicy_horizontal = expanding
 				layoutpolicy_vertical = expanding
-				visible = "[GreaterThan_CFixedPoint(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
-				layoutstretchfactor_horizontal = "[FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+				visible = "[GreaterThan_CFixedPoint(Country.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+				layoutstretchfactor_horizontal = "[FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
 
 				#background = {
 				#	texture = "gfx/interface/progressbar/bar_horizontal.dds"
@@ -754,7 +757,7 @@ types vpop_building_types
 				#textbox = {
 				#	parentanchor = center|nobaseline
 				#	autoresize = yes
-				#	text = "[Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue|1]"
+				#	text = "[Country.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue|1]"
 				#}
 			}
 		}
@@ -783,14 +786,14 @@ types vpop_building_types
 
 		item = {
 			flowcontainer = {
-				visible = "[GreaterThan_CFixedPoint(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+				visible = "[GreaterThan_CFixedPoint(InterestGroup.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
 				textbox = {
 					autoresize = yes
 					text = "[InterestGroup.GetTextIcon]"
 				}
 				textbox = {
 					autoresize = yes
-					text = "[InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue]"
+					text = "[InterestGroup.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue]"
 				}
 	
 			}
@@ -798,7 +801,7 @@ types vpop_building_types
 		
 		textbox = {
 			autoresize = yes
-			text = "[Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue]"
+			text = "[Country.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue]"
 		}
 	}
 
@@ -812,7 +815,7 @@ types vpop_building_types
 		item = {
 			button = {
 				size = { 120 27 }
-				#visible = "[GreaterThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+				#visible = "[GreaterThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
 
 				#parentanchor = hcenter
 				using = default_button
@@ -823,10 +826,10 @@ types vpop_building_types
 					size = { 100% 100% }
 					align = right|nobaseline
 					margin_right = 10
-					visible = "[LessThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))]"
+					visible = "[LessThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))]"
 					#elide = right
 					#autoresize = yes
-					text = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)))|1]%"
+					text = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Culture.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)))|1]%"
 				}
 				textbox = {
 					size = { 100% 100% }
@@ -851,7 +854,7 @@ types vpop_building_types
 
 
 		size = { 120 27 }
-		#visible = "[GreaterThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+		#visible = "[GreaterThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
 
 		#parentanchor = hcenter
 		using = default_button
@@ -880,10 +883,10 @@ types vpop_building_types
 				#size = { 100% 100% }
 				align = right|nobaseline
 				margin_right = 6
-				visible = "[LessThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,Multiply_CFixedPoint(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize),'(CFixedPoint)0.995'))]"
+				visible = "[LessThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,Multiply_CFixedPoint(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize),'(CFixedPoint)0.995'))]"
 				#elide = right
 				autoresize = yes
-				text = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)))|0]%"
+				text = "[CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Culture.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize)))|0]%"
 			}
 	
 		}
@@ -894,7 +897,7 @@ types vpop_building_types
 	type vpop_textline_state_religion = button {
 		parentanchor = hcenter
 		size = { 120 27 }
-		#visible = "[GreaterThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
+		#visible = "[GreaterThan_CFixedPoint(Culture.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue,'(CFixedPoint)0')]"
 
 		#parentanchor = hcenter
 		using = default_button
@@ -951,7 +954,7 @@ types vpop_building_types
 
 		blockoverride "pieslice" {
 			#value = "['(CFixedPoint)100']"
-			value = "[FixedPointToFloat(Culture.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+			value = "[FixedPointToFloat(Culture.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
 		}
 
 		blockoverride "tooltip" {
@@ -996,7 +999,7 @@ types vpop_building_types
 			endangle = 90
 
 			#startangle = 0
-			#endangle = "[Subtract_float('(float)360',Multiply_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))),'(float)3.6')))]"
+			#endangle = "[Subtract_float('(float)360',Multiply_float(CurrentAndMaxToProgressbarValueInt32(FixedPointToInt(Country.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue),FixedPointToInt(IntToFixedPoint(PopListItem.GetWorkingAdultsPopSize))),'(float)3.6')))]"
 
 
 
@@ -1008,7 +1011,7 @@ types vpop_building_types
 					}
 
 					block "pieslice" {
-						value = "[FixedPointToFloat(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+						value = "[FixedPointToFloat(InterestGroup.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
 					}
 
 					block "color" {
@@ -1043,7 +1046,7 @@ types vpop_building_types
 					}
 
 					block "pieslice" {
-						value = "[FixedPointToFloat(InterestGroup.MakeScope.Var(Concatenate('vpop_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
+						value = "[FixedPointToFloat(InterestGroup.MakeScope.Var(Concatenate('vpop_b_',PopListItem.GetPopType.GetNameNoIconNoFormatting)).GetValue)]"
 					}
 
 					block "color" {
