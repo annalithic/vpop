@@ -38,3 +38,45 @@ vpop_seffect_clear_poptypes = {
 	set_variable = { value = 0 days = 1 name = vpop_$X$_Slaves      }
 	set_variable = { value = 0 days = 1 name = vpop_$X$_Servicemen  }
 }
+
+
+vpop_seffect_init_sol = {
+	set_variable = { value = 0 days = 1 name = vpop_sol_0 }
+	set_variable = { value = 0 days = 1 name = vpop_sol_1 }
+	set_variable = { value = 0 days = 1 name = vpop_sol_2 }
+	set_variable = { value = 0 days = 1 name = vpop_sol_3 }
+	set_variable = { value = 0 days = 1 name = vpop_sol_4 }
+	set_variable = { value = 0 days = 1 name = vpop_sol_5 }
+	set_variable = { value = 0 days = 1 name = vpop_sol_6 }
+	set_variable = { value = 0 days = 1 name = vpop_sol_7 }
+	set_variable = { value = 0 days = 1 name = vpop_sol_8 }
+	set_variable = { value = 0 days = 1 name = vpop_sol_9 }
+}
+
+vpop_seffect_add_sol = {
+	scope:p = {
+		if =      { limit = { standard_of_living < 5 } prev = { change_variable = { name = vpop_sol_0 add = $N$ } } }
+		else_if = { limit = { standard_of_living < 10} prev = { change_variable = { name = vpop_sol_1 add = $N$ } } }
+		else_if = { limit = { standard_of_living < 15} prev = { change_variable = { name = vpop_sol_2 add = $N$ } } }
+		else_if = { limit = { standard_of_living < 20} prev = { change_variable = { name = vpop_sol_3 add = $N$ } } }
+		else_if = { limit = { standard_of_living < 25} prev = { change_variable = { name = vpop_sol_4 add = $N$ } } }
+		else_if = { limit = { standard_of_living < 30} prev = { change_variable = { name = vpop_sol_5 add = $N$ } } }
+		else_if = { limit = { standard_of_living < 50} prev = { change_variable = { name = vpop_sol_6 add = $N$ } } }
+		else_if = { limit = { standard_of_living < 50} prev = { change_variable = { name = vpop_sol_7 add = $N$ } } }
+		else_if = { limit = { standard_of_living < 60} prev = { change_variable = { name = vpop_sol_8 add = $N$ } } }
+		else =    {                                    prev = { change_variable = { name = vpop_sol_9 add = $N$ } } }
+	}
+}
+
+vpop_seffect_max_sol = {
+	set_variable = { name = vpop_sol_max value = var:vpop_sol_0 days = 1 }
+	change_variable = { name = vpop_sol_max max = var:vpop_sol_1 }
+	change_variable = { name = vpop_sol_max max = var:vpop_sol_2 }
+	change_variable = { name = vpop_sol_max max = var:vpop_sol_3 }
+	change_variable = { name = vpop_sol_max max = var:vpop_sol_4 }
+	change_variable = { name = vpop_sol_max max = var:vpop_sol_5 }
+	change_variable = { name = vpop_sol_max max = var:vpop_sol_6 }
+	change_variable = { name = vpop_sol_max max = var:vpop_sol_7 }
+	change_variable = { name = vpop_sol_max max = var:vpop_sol_8 }
+	change_variable = { name = vpop_sol_max max = var:vpop_sol_9 }
+}

@@ -1,4 +1,28 @@
-﻿vpop_sgui_test_set = {
+﻿vpop_sgui_state_sol = {
+	scope = state
+
+	effect = {
+		vpop_seffect_init_sol = {}
+	}
+}
+
+vpop_sgui_state_max = {
+	scope = state
+
+	effect = {
+		vpop_seffect_max_sol = {}
+	}
+}
+
+vpop_sgui_state_pop = {
+	scope = state
+
+	effect = {
+		vpop_seffect_add_sol = { N = scope:n }
+	}
+}
+
+vpop_sgui_test_set = {
 	scope = country
 
 	effect = {
