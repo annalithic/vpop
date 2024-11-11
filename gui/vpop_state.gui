@@ -60,10 +60,11 @@ types vpop_state_types
 
 	type vpop_histobar = flowcontainer {
 		direction = vertical
+		
 		widget = {
 			size = { @histowidth @histoheight }
-			visible = "[State.MakeScope.Var('vpop_sol_max').IsSet]"
 			vbox = {
+				visible = "[State.MakeScope.Var('vpop_sol_max').IsSet]"
 				margin = { 1 1 }
 				widget = {
 					size = { -1 -1 }
@@ -71,13 +72,80 @@ types vpop_state_types
 					layoutpolicy_vertical = expanding
 					block "emptyStretch" {}
 				}
-				widget = {
+				vbox = {
 					size = { -1 -1 }
 					layoutpolicy_horizontal = expanding
 					layoutpolicy_vertical = expanding
 					block "filledStretch" {}
-					background = {
-						texture = "gfx/interface/treemapchart/treemapchart.dds"
+
+					widget = {
+						block "filledSlaves" {}	
+						background = {
+							texture = "gfx/interface/treemapchart/treemapchart.dds"
+							color = { .676 0.629 0.535 1 }
+						}
+
+						size = { -1 -1 }
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+					}
+					widget = {
+						block "filledUnemployed" {}	
+						background = {
+							texture = "gfx/interface/treemapchart/treemapchart.dds"
+							color = { .54 .30 .30 1 }
+						}
+
+						size = { -1 -1 }
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+					}
+					widget = {
+						block "filledPeasants" {}	
+						background = {
+							texture = "gfx/interface/treemapchart/treemapchart.dds"
+							color = { .522 .652 .429 1 }
+						}
+
+						size = { -1 -1 }
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+					}
+
+					widget = {
+						block "filledPoor" {}	
+						background = {
+							texture = "gfx/interface/treemapchart/treemapchart.dds"
+							color = { .563 .444 .412 1 }
+						}
+
+						size = { -1 -1 }
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+					}
+
+					widget = {
+						block "filledMiddle" {}	
+						background = {
+							texture = "gfx/interface/treemapchart/treemapchart.dds"
+							color = { .39 .46 .56 1 }
+						}
+
+						size = { -1 -1 }
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
+					}
+
+					widget = {
+						block "filledRich" {}	
+						background = {
+							texture = "gfx/interface/treemapchart/treemapchart.dds"
+							color = { .81 .70 .43 1 }
+						}
+
+						size = { -1 -1 }
+						layoutpolicy_horizontal = expanding
+						layoutpolicy_vertical = expanding
 					}
 				}
 			}
@@ -86,6 +154,121 @@ types vpop_state_types
 			size = { @histowidth @histowidth }
 			align = center
 			block "texticon" { }
+		}
+	}
+
+	type vpop_test_histogram_key = flowcontainer {
+		spacing = 4
+		icon = {
+			parentanchor = vcenter
+			texture = "/gfx/interface/piechart/piechart_legend.dds"
+			size = { 18 18 }
+			block "color" {}
+		}
+		textbox = {
+			autoresize = yes
+			align = nobaseline
+			block "text" {}
+		}
+	}
+
+	type vpop_class_row = widget {
+		size = { 200 40 }
+		hbox = {
+			textbox = {
+				autoresize = yes
+				align = nobaseline
+				block "text" {}
+			}	
+			textbox = {
+				autoresize = yes
+				align = nobaseline
+				block "count" {}
+			}	
+		}
+		
+		
+	}
+
+	type vpop_class_table = flowcontainer {
+		direction = vertical
+
+		vpop_class_row = {
+			blockoverride "color" { color = { .81 .70 .43 1 } }
+			blockoverride "text" { text = "concept_upper_strata" }
+			blockoverride "count" { text = "[State.GetNumberOfPopsRich]" }
+		}
+
+		vpop_class_row = {
+			blockoverride "color" { color = { .39 .46 .56 1 } }
+			blockoverride "text" { text = "concept_middle_strata" }
+			blockoverride "count" { text = "[State.GetNumberOfPopsMiddle]" }
+		}
+
+		vpop_class_row = {
+			blockoverride "color" { color = { .563 .444 .412 1 } }
+			blockoverride "text" { text = "concept_lower_strata" }
+			blockoverride "count" { text = "[State.GetNumberOfPopsPoor]" }
+		}
+
+		#working adults, not all pop, feels weird to combine. maybe use a divider?
+		vpop_class_row = {
+			blockoverride "color" { color = { .522 .652 .429 1 } }
+			blockoverride "text" { text = "peasants_no_icon" }
+			blockoverride "count" { text = "[State.GetNumSubsistenceWorkingAdults]" }
+		}
+
+		vpop_class_row = {
+			blockoverride "color" { color = { .54 .30 .30 1 } }
+			blockoverride "text" { text = "concept_unemployed" }
+			blockoverride "count" { text = "[State.GetNumUnemployedWorkingAdults]" }
+		}
+
+		vpop_class_row = {
+			blockoverride "color" { color = { .676 0.629 0.535 1 } }
+			blockoverride "text" { text = "concept_slaves" }
+			blockoverride "count" { text = "[State.GetNumUnemployedWorkingAdults]" }
+		}
+
+	}
+
+	type vpop_test_histogram_keys = flowcontainer {
+		margin = { 10 5 }
+		spacing = 2
+		direction = vertical
+
+		background = {
+			using = entry_bg
+		}
+
+		vpop_test_histogram_key = {
+			blockoverride "color" { color = { .81 .70 .43 1 } }
+			blockoverride "text" { text = "concept_upper_strata" }
+		}
+
+		vpop_test_histogram_key = {
+			blockoverride "color" { color = { .39 .46 .56 1 } }
+			blockoverride "text" { text = "concept_middle_strata" }
+		}
+
+		vpop_test_histogram_key = {
+			blockoverride "color" { color = { .563 .444 .412 1 } }
+			blockoverride "text" { text = "concept_lower_strata" }
+		}
+
+		vpop_test_histogram_key = {
+			blockoverride "color" { color = { .522 .652 .429 1 } }
+			blockoverride "text" { text = "peasants_no_icon" }
+		}
+
+		vpop_test_histogram_key = {
+			blockoverride "color" { color = { .54 .30 .30 1 } }
+			blockoverride "text" { text = "concept_unemployed" }
+		}
+
+		vpop_test_histogram_key = {
+			blockoverride "color" { color = { .676 0.629 0.535 1 } }
+			blockoverride "text" { text = "concept_slaves" }
 		}
 	}
 
@@ -138,7 +321,7 @@ types vpop_state_types
 			}
 
 			axis = {
-				size = { 100% 100 }
+				size = { 100% @histoheight }
 				direction = vertical
 	
 				axis_label = {
@@ -185,61 +368,182 @@ types vpop_state_types
 			vpop_histobar = {
 				blockoverride "texticon" { raw_text = "@starving" }
 				blockoverride "emptyStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(Subtract_CFixedPoint(State.MakeScope.Var('vpop_sol_max').GetValue,State.MakeScope.Var('vpop_sol_0').GetValue))]" }
-				blockoverride "filledStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_0').GetValue)]" }
+				blockoverride "filledStretch"    { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(           'vpop_sol_0').GetValue)]" }
+				blockoverride "filledSlaves"     { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_slaves_0').GetValue)]" 
+				                                     visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_slaves_0').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledUnemployed" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_unemployed_0').GetValue)]" 
+												   visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_unemployed_0').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPeasants"   { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_peasants_0').GetValue)]" 
+				                                   visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_peasants_0').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPoor"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_poor_0').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_poor_0').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledMiddle"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_middle_0').GetValue)]" 
+											           visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_middle_0').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledRich"   {         layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_rich_0').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_rich_0').GetValue,'(CFixedPoint)10')]" }
+  
 			}
 	
 			vpop_histobar = {
 				blockoverride "texticon" { raw_text = "@struggling" }
 				blockoverride "emptyStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(Subtract_CFixedPoint(State.MakeScope.Var('vpop_sol_max').GetValue,State.MakeScope.Var('vpop_sol_1').GetValue))]" }
-				blockoverride "filledStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_1').GetValue)]" }
+				blockoverride "filledStretch"    { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(           'vpop_sol_1').GetValue)]" }
+				blockoverride "filledSlaves"     { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_slaves_1').GetValue)]" 
+				                                     visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_slaves_1').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledUnemployed" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_unemployed_1').GetValue)]" 
+												   visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_unemployed_1').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPeasants"   { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_peasants_1').GetValue)]" 
+				                                   visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_peasants_1').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPoor"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_poor_1').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_poor_1').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledMiddle"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_middle_1').GetValue)]" 
+											           visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_middle_1').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledRich"   {         layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_rich_1').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_rich_1').GetValue,'(CFixedPoint)10')]" }
 			}
 	
 			vpop_histobar = {
 				blockoverride "texticon" { raw_text = "@impoverished" }
 				blockoverride "emptyStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(Subtract_CFixedPoint(State.MakeScope.Var('vpop_sol_max').GetValue,State.MakeScope.Var('vpop_sol_2').GetValue))]" }
-				blockoverride "filledStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_2').GetValue)]" }
+				blockoverride "filledStretch"    { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(           'vpop_sol_2').GetValue)]" }
+				blockoverride "filledSlaves"     { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_slaves_2').GetValue)]" 
+				                                     visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_slaves_2').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledUnemployed" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_unemployed_2').GetValue)]" 
+												   visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_unemployed_2').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPeasants"   { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_peasants_2').GetValue)]" 
+				                                   visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_peasants_2').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPoor"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_poor_2').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_poor_2').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledMiddle"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_middle_2').GetValue)]" 
+											           visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_middle_2').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledRich"   {         layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_rich_2').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_rich_2').GetValue,'(CFixedPoint)10')]" }
 			}
 	
 			vpop_histobar = {
 				blockoverride "texticon" { raw_text = "@middling" }
 				blockoverride "emptyStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(Subtract_CFixedPoint(State.MakeScope.Var('vpop_sol_max').GetValue,State.MakeScope.Var('vpop_sol_3').GetValue))]" }
-				blockoverride "filledStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_3').GetValue)]" }
+				blockoverride "filledStretch"    { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(           'vpop_sol_3').GetValue)]" }
+				blockoverride "filledSlaves"     { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_slaves_3').GetValue)]" 
+				                                     visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_slaves_3').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledUnemployed" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_unemployed_3').GetValue)]" 
+												   visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_unemployed_3').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPeasants"   { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_peasants_3').GetValue)]" 
+				                                   visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_peasants_3').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPoor"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_poor_3').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_poor_3').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledMiddle"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_middle_3').GetValue)]" 
+											           visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_middle_3').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledRich"   {         layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_rich_3').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_rich_3').GetValue,'(CFixedPoint)10')]" }
 			}
 	
 			vpop_histobar = {
 				blockoverride "texticon" { raw_text = "@secure" }
 				blockoverride "emptyStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(Subtract_CFixedPoint(State.MakeScope.Var('vpop_sol_max').GetValue,State.MakeScope.Var('vpop_sol_4').GetValue))]" }
-				blockoverride "filledStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_4').GetValue)]" }
+				blockoverride "filledStretch"    { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(           'vpop_sol_4').GetValue)]" }
+				blockoverride "filledSlaves"     { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_slaves_4').GetValue)]" 
+				                                     visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_slaves_4').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledUnemployed" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_unemployed_4').GetValue)]" 
+												   visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_unemployed_4').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPeasants"   { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_peasants_4').GetValue)]" 
+				                                   visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_peasants_4').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPoor"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_poor_4').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_poor_4').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledMiddle"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_middle_4').GetValue)]" 
+											           visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_middle_4').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledRich"   {         layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_rich_4').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_rich_4').GetValue,'(CFixedPoint)10')]" }
 			}
 	
 			vpop_histobar = {
 				blockoverride "texticon" { raw_text = "@prosperous" }
 				blockoverride "emptyStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(Subtract_CFixedPoint(State.MakeScope.Var('vpop_sol_max').GetValue,State.MakeScope.Var('vpop_sol_5').GetValue))]" }
-				blockoverride "filledStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_5').GetValue)]" }
+				blockoverride "filledStretch"    { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(           'vpop_sol_5').GetValue)]" }
+				blockoverride "filledSlaves"     { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_slaves_5').GetValue)]" 
+				                                     visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_slaves_5').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledUnemployed" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_unemployed_5').GetValue)]" 
+												   visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_unemployed_5').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPeasants"   { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_peasants_5').GetValue)]" 
+				                                   visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_peasants_5').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPoor"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_poor_5').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_poor_5').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledMiddle"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_middle_5').GetValue)]" 
+											           visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_middle_5').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledRich"   {         layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_rich_5').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_rich_5').GetValue,'(CFixedPoint)10')]" }				
 			}
 	
 			vpop_histobar = {
 				blockoverride "texticon" { raw_text = "@affluent" }
 				blockoverride "emptyStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(Subtract_CFixedPoint(State.MakeScope.Var('vpop_sol_max').GetValue,State.MakeScope.Var('vpop_sol_6').GetValue))]" }
-				blockoverride "filledStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_6').GetValue)]" }
+				blockoverride "filledStretch"    { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(           'vpop_sol_6').GetValue)]" }
+				blockoverride "filledSlaves"     { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_slaves_6').GetValue)]" 
+				                                     visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_slaves_6').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledUnemployed" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_unemployed_6').GetValue)]" 
+												   visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_unemployed_6').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPeasants"   { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_peasants_6').GetValue)]" 
+				                                   visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_peasants_6').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPoor"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_poor_6').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_poor_6').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledMiddle"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_middle_6').GetValue)]" 
+											           visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_middle_6').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledRich"   {         layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_rich_6').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_rich_6').GetValue,'(CFixedPoint)10')]" }				
 			}
 	
 			vpop_histobar = {
 				blockoverride "texticon" { raw_text = "@wealthy" }
 				blockoverride "emptyStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(Subtract_CFixedPoint(State.MakeScope.Var('vpop_sol_max').GetValue,State.MakeScope.Var('vpop_sol_7').GetValue))]" }
-				blockoverride "filledStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_7').GetValue)]" }
+				blockoverride "filledStretch"    { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(           'vpop_sol_7').GetValue)]" }
+				blockoverride "filledSlaves"     { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_slaves_7').GetValue)]" 
+				                                     visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_slaves_7').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledUnemployed" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_unemployed_7').GetValue)]" 
+												   visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_unemployed_7').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPeasants"   { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_peasants_7').GetValue)]" 
+				                                   visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_peasants_7').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPoor"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_poor_7').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_poor_7').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledMiddle"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_middle_7').GetValue)]" 
+											           visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_middle_7').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledRich"   {         layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_rich_7').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_rich_7').GetValue,'(CFixedPoint)10')]" }				
 			}
 	
 			vpop_histobar = {
 				blockoverride "texticon" { raw_text = "@lavish" }
 				blockoverride "emptyStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(Subtract_CFixedPoint(State.MakeScope.Var('vpop_sol_max').GetValue,State.MakeScope.Var('vpop_sol_8').GetValue))]" }
-				blockoverride "filledStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_8').GetValue)]" }
+				blockoverride "filledStretch"    { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(           'vpop_sol_8').GetValue)]" }
+				blockoverride "filledSlaves"     { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_slaves_8').GetValue)]" 
+				                                     visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_slaves_8').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledUnemployed" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_unemployed_8').GetValue)]" 
+												   visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_unemployed_8').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPeasants"   { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_peasants_8').GetValue)]" 
+				                                   visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_peasants_8').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPoor"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_poor_8').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_poor_8').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledMiddle"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_middle_8').GetValue)]" 
+											           visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_middle_8').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledRich"   {         layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_rich_8').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_rich_8').GetValue,'(CFixedPoint)10')]" }				
 			}
 	
 			vpop_histobar = {
 				blockoverride "texticon" { raw_text = "@opulent" }
 				blockoverride "emptyStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(Subtract_CFixedPoint(State.MakeScope.Var('vpop_sol_max').GetValue,State.MakeScope.Var('vpop_sol_9').GetValue))]" }
-				blockoverride "filledStretch" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_9').GetValue)]" }
+				blockoverride "filledStretch"    { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(           'vpop_sol_9').GetValue)]" }
+				blockoverride "filledSlaves"     { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_slaves_9').GetValue)]" 
+				                                     visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_slaves_9').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledUnemployed" { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_unemployed_9').GetValue)]" 
+												   visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_unemployed_9').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPeasants"   { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_peasants_9').GetValue)]" 
+				                                   visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_peasants_9').GetValue,'(CFixedPoint)10')]" }
+				blockoverride "filledPoor"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(    'vpop_sol_poor_9').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_poor_9').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledMiddle"         { layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var('vpop_sol_middle_9').GetValue)]" 
+											           visible =              "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_middle_9').GetValue,'(CFixedPoint)10')]" }
+			    blockoverride "filledRich"   {         layoutstretchfactor_vertical = "[FixedPointToInt(State.MakeScope.Var(  'vpop_sol_rich_9').GetValue)]" 
+												       visible =                "[GreaterThan_CFixedPoint(State.MakeScope.Var('vpop_sol_rich_9').GetValue,'(CFixedPoint)10')]" }				
 			}	
 		}
 
@@ -255,7 +559,12 @@ types vpop_state_types
 	
 		vpop_state_pop_calculator = {}
 
-		vpop_test_histogram = { }
+		flowcontainer = {
+			margin = { 10 0 }
+			spacing = 10
+			vpop_test_histogram = { }
+			vpop_test_histogram_keys = { }
+		}
 
 		flowcontainer = {
 			parentanchor = hcenter

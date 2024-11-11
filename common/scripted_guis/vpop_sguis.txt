@@ -2,7 +2,13 @@
 	scope = state
 
 	effect = {
-		vpop_seffect_init_sol = {}
+		vpop_seffect_init_sol = { X = sol }
+		vpop_seffect_init_sol = { X = sol_unemployed }
+		vpop_seffect_init_sol = { X = sol_slaves }
+		vpop_seffect_init_sol = { X = sol_peasants }
+		vpop_seffect_init_sol = { X = sol_poor }
+		vpop_seffect_init_sol = { X = sol_middle }
+		vpop_seffect_init_sol = { X = sol_rich }
 	}
 }
 
@@ -10,7 +16,7 @@ vpop_sgui_state_max = {
 	scope = state
 
 	effect = {
-		vpop_seffect_max_sol = {}
+		vpop_seffect_max_sol = { X = sol }
 	}
 }
 
@@ -18,7 +24,36 @@ vpop_sgui_state_pop = {
 	scope = state
 
 	effect = {
-		vpop_seffect_add_sol = { N = scope:n }
+		vpop_seffect_add_sol = { X = sol N = scope:n }
+
+		if = {
+			limit = { scope:p = { is_pop_type = slaves } }
+			vpop_seffect_add_sol = { X = sol_slaves N = scope:n }
+		}
+
+		else_if = {
+			limit = { scope:p = { is_employed = no } }
+			vpop_seffect_add_sol = { X = sol_unemployed N = scope:n }
+		}
+		
+		else_if = {
+			limit = { scope:p = { is_pop_type = peasants } }
+			vpop_seffect_add_sol = { X = sol_peasants N = scope:n }
+		}
+
+		else_if = {
+			limit = { scope:p = { strata = poor } }
+			vpop_seffect_add_sol = { X = sol_poor N = scope:n }
+		}
+
+		else_if = {
+			limit = { scope:p = { strata = middle } }
+			vpop_seffect_add_sol = { X = sol_middle N = scope:n }
+		}
+
+		else = {
+			vpop_seffect_add_sol = { X = sol_rich N = scope:n }
+		}
 	}
 }
 
@@ -88,11 +123,5 @@ vpop_sgui_add_poptype_country = {
 			}
 			vpop_seffect_add_poptype = { N = scope:n  X = r }
 		}
-	}
-}
-
-vpop_sgui_test = {
-	effect = {
-		vpop_seffect_test = { N = ABF }
 	}
 }
